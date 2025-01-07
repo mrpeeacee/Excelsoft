@@ -1,0 +1,25 @@
+
+Comments
+Server best practice
+Repousr creation				Done
+Security patch updates				
+Best performance				Done
+Shutdown button disable			Done
+TLS 1.2 enabled					Done	
+Pre-Requisites installation		Done with/without chocolatey
+Firewall disable				Done
+IIS install						Done
+IIS limits						Done
+Logging							Done
+ASP.NET framework registration	
+ISAPI and CGI restrictions		
+
+
+
+IIS install along with best practice 			Done	
+Software installation 							- chocolatey
+VD & pool creation along with best practice		Done
+Folder creation & permission					Done	
+S3 upload & download , unzip					
+web config changes								- Pending
+IIS logs zip , task scheduler, windows services	- If any

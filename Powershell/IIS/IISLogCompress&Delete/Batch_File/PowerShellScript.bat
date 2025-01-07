@@ -1,0 +1,1 @@
+PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""D:\Project\Schedule_Tasks\IISLogCompress&Delete\IISLog_Archive and Delete older then 30 days.ps1""' -Verb RunAs}"

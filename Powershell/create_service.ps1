@@ -1,0 +1,1 @@
+sc create "service name" binpath="exefile path exe file name"
