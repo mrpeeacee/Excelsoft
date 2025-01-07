@@ -1,0 +1,33 @@
+API(App)
+
+ModerationVD         MOderationPool          Moderationfoldername
+D:\Workspace\MOESG\Moderation\Dev\ModerationWeb\ModerationAPI\bin\Release\net5.0
+
+UserMngmntVD       UserPool                     Userfoldername
+D:\Workspace\MOESG\Framework\UserManagement\Dev\UserManagementWeb\UserManagementAPI\bin\Release\net5.0
+
+CWVD                      CourseworkPool          Courseworkfoldername
+D:\Workspace\MOESG\Coursework\Dev\CourseworkWeb\CourseworkAPI\bin\Release\net5.0
+
+--------------------------------------------------------------------------------------
+
+Web
+Frameworkfoldername	 FrameworkPool		FrameworkVD
+D:\Workspace\MOESG\Framework\Dev\Framework\IdentityServer\bin\Release\net5.0
+D:\Workspace\MOESG\Framework\Dev\Framework\IdentityServer\wwwroot	
+
+MOESGVD                NOESGPool                 MOESGfoldername
+D:\Workspace\MOESG\Framework\IntegratedModule\MOESG\dist\moesg
+
+
+
+
+
+VD and pool list
+
+FrameworkVD           FrameworkPool           Frameworkfoldername
+MOESGVD                NOESGPool                 MOESGfoldername
+UserMngmntVD       UserPool                     Userfoldername
+CWVD                      CourseworkPool          Courseworkfoldername
+ModerationVD         MOderationPool          Moderationfoldername
+

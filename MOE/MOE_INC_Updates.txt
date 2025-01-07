@@ -1,0 +1,59 @@
+http://192.168.3.171:8080/    Jenkins URL
+
+Changeset 128246
+
+Place the given changeset in below URL
+
+https://estfs.excelindia.com/tfs/SARAS/TestandAssessment/_versionControl/changesets
+
+Changesets -> changeset id -> 128246
+
+You'll get the branch and module details , check in time, Author etc in this id
+($/TestandAssessment/Feature/MOE-SEAB/Manifest/Saras.TestDelivery.TestPresenter/TestDelivery.TestPlayer/TryOutScript)
+
+With the help of this one can identify the module to build using parameters in the job, if still module is not clear one can
+search the branch in MOEBuild.XML file to identify the exact module name.
+
+
+elcinvigilator=elcinvigilator_angular
+sarasExamManagementframework=ExamManagementWebAPI
+sarasItemAuthoringFrameworkAPI=AuthoringAPI
+Saras.TestDelivery.TestPresenter= MOE-Testplayer  
+item authoring=Advance authoring
+frameworkAPI = Frameworkthread
+MoE-TestPlayerWebAPI=moe-testdelivery Api 
+rolemanagementservice=TAservice
+SarasAdministrationFramework=AdministrationWebApi
+Saras.TestDelivery.TestManagement=MOE-TestDeliveryAPI
+
+
+Some of the modules in changeset will have developer local names but the VD's name will be slightly different , in that case
+kindly refer the previous step
+
+https://docs.google.com/spreadsheets/d/10INxVgAUjtspm49_vkJPSDtLMsfULrGY_pdVJQ3E6Fk/edit#gid=816507878
+
+Also refer the above sheet to find out which all modules will be present in Delivery and Authoring.
+
+MOE_Inc_Build_Jobs :- 
+
+*MOEDeliveryWeb_IncrementalBuild
+
+*MOEAuthWeb_IncrementalBuild
+
+
+*MOEAuthAPP_IncrementalBuild
+
+*MOEDeliveryAPP_IncrementalBuild
+
+
+Once the job is successfull, cross verify by visiting the actual path in the servers for the given module and check for latest.
+
+BUILD:-
+             10.10.3.53 delivery web                       
+             10.10.3.57 delivery app                                                                                                           
+             
+          
+             10.10.3.41 auth web
+             10.10.3.39 auth app
+             
+D\Project\MOE will be common path for all modules respectively.

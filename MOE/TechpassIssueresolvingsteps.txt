@@ -1,0 +1,79 @@
+Windows Devices
+
+1.Reauthenticate Cloudflare Warp
+
+Kindly try to reauthenticate your Cloudflare Warp client follow by the following step.
+
+Please clear your browsing history/cache on Chrome AND Click on the Cloudflare warp client > Click on the gear icon > Preferences > Account > click on Re-authenticate with Cloudflare zero trust.
+
+ 
+
+2.Time Sync Update
+
+Below is the step to start the time sync services in command prompt.
+
+ 
+
+Run your CMD from Start > Right click at "CMD" and run as administrator, key in below command.
+w32tm /unregister.
+
+Hit Win+R and type services.msc
+Find ‘Windows Time’ service and Stop it
+Key in below command at command prompt.
+w32tm /register
+
+Start Windows Time Service again.
+Key in below command at command prompt.
+net start w32time
+
+Follow by this command.
+w32tm /resync
+
+w32tm /query /status
+
+Once the Time Sync is done, please perform the below DNS setup
+ 
+
+ 
+
+3.Set DNS to (1.1.1.1. & 1.0.0.1)
+Please navigate to Control Panel-> Network and Internet-> Network Connections -> Select CloudflareWARP for the setting.
+
+ 
+
+
+
+ 
+
+Obtain an IP address automatically.
+Use the following DNS server. (1.1.1.1. & 1.0.0.1) > OK
+Screens screenshot of a computer
+
+Description automatically generated
+
+ 
+
+ 
+
+Run command prompt as administrator
+Key in command ipconfig /flushdns
+ 
+
+ 
+
+4.Device Sync
+Please try to connect to your mobile personal hotspot and go to “Access work or school” > click on the “Info” button at your Techpass account > And click on the “sync” button.
+
+ 
+
+ 
+
+5.Restart Tanium Service
+
+Please help to restart the Tanium services [Click Windows + R, you can navigate to services.msc > look for Tanium client > right click and restart services and reboot your device]
+
+ 
+
+ 
+
+Then try to access your SEED dashboard (dashboard.seed.tech.gov.sg) / Jira and SGTS services.

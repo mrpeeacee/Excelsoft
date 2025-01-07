@@ -1,0 +1,15 @@
+Cloud Nex	https://moe-nexauth.excelindia.com/MOE/TAAdmin/ExamManagement
+
+Coud Delivery	https://moe-delivery.excelindia.com/MOE/Taadmin/ExamManagement
+
+Cloud NonNex	https://moe-nnexauth.excelindia.com/MOE/Taadmin/ExamManagement
+
+Cloud Xchange	https://moe-nnexauth.excelindia.com/Xchange/Taadmin/ExamManagement
+
+Cloud DX	https://moe-dx.excelindia.com/MOE/ETLDashBoardApplication/Login.aspx
+
+Cloud DataAnalyitcs	https://moe-rp.excelindia.com/MOE/DataAnalytics/login
+
+Cloud SLS	https://moe-sls.excelindia.com/MOESLS/
+
+Cloud eMarking	https://moe-emarking.excelindia.com/eMarking/login

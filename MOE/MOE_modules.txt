@@ -1,0 +1,8 @@
+.NET core and angular -- remove appsetting in src keep only appsetting in destn (cloud)
+
+ng build -- prod >> angular 
+
+Angular:- eORALTryOut,eORAL,eLCInvigilator,eLCTryOut,DataAnalytics
+
+.NET core:- LCManagementApi,LCInvigilatorManagementApi,DataAnalyticsApi,DataAnalyticsWebApi,eOralWebAPI,eOralAppAPI,ClientInfoForExamCentreReadiness,ETLDashboardAPI,Exam2IntegrationAPI
+

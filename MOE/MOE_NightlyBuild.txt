@@ -1,0 +1,94 @@
+10.10.2.63 source TFS , build environment, (sarasbuilder::Bu!d!@#$)
+
+DB logs checking path :- D:\NightlyBuild\Auth\3.4.9.0\Diff_DB\Upgrade\DBScripts\Installer\Log
+
+TFS path checkin monitor :- D:\Workspace\MOE-SEAB\Manifest\Dependencies\TestAndAssessment.Config\TestAndAssessment.environment.config
+
+Environments:- Build, Cloud,UAT, CAT, Preprod, Prod
+
+BUILD:-
+             10.10.3.53 delivery web                       
+             10.10.3.57 delivery app                                                                                                           
+              
+          
+             10.10.3.41 auth web
+             10.10.3.39 auth app
+             
+			 
+			 
+\\10.10.2.63\d$\BuildBackups\MOE_TandA   -> Today's date backup should be present
+\\10.10.2.63\d$\Workspace\MOE-SEAB\ReleaseEngineering\Build_logs   -> Check for errors in the nightly build logs
+
+TFS Label:-  
+$/TestandAssessment/Feature/MOE-SEAB
+ *viewhistory -> changeset -> label
+ *rightclick -> advanced -> apply label -> label (todays date build backup)
+
+
+Build URL's:-
+
+DL:-https://moedeliverybuild.excelindia.com/MOE/TAAdmin/ExamManagement
+Auth:-https://moeauthbuild.excelindia.com/MOE/TAAdmin/ExamManagement
+
+seabadmin01\Password@123
+
+
+
+
+54.255.27.60 bastian/cloud Jenkins 
+54.179.243.39 cloud bastian machine
+
+CLOUD:-
+             Nex-Auth:
+---------
+172.32.50.129	web1
+172.32.51.170	web2
+172.32.52.190	App1
+172.32.53.73	App2
+
+Non-NexAuth and Xchange:
+------------------------
+172.31.50.150	Web1
+172.31.51.195	Web2
+172.31.52.144	App2
+172.31.53.209	App2
+
+            
+
+             Delivery:
+             ---------
+             172.31.50.218	Web1
+             172.31.51.139	web2
+             172.31.52.42	App1
+             172.31.53.71	App2
+
+             DX: ETL dashboard appn
+             ---
+             172.31.50.89	web1
+             172.31.51.240	Web2
+             172.31.52.57	App1
+             172.31.53.99	App2
+
+Report:
+-------
+172.31.50.16	Web
+172.31.52.140	App
+
+mdirect.local\admin
+Mysore2019@21
+
+psexec.exe -i \\172.31.50.16 -u mdirect.local\admin -p Mysore2019@21 -s cmd
+
+obfuscation :- "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe" sign /f "D:\Shiva_Should_NOT_ DELETE\Digi_new\DigiCert.pfx" /p "ExcelMysore" /t "http://timestamp.sectigo.com" /v "D:\MOE\Release\net6.0\UploadS3FilesToAWS.exe"
+
+
+
+Cloud installer path :- only for angular and .NETcore -->> D:\BuildPackages\Installer\XLCloud\CommonConfigs
+
+
+
+
+
+
+
+

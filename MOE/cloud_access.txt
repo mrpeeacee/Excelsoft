@@ -1,0 +1,42 @@
+https://es-securedownloads.excelindia.com/deployment-data/
+
+
+deployment-data
+D#910Ym@n1Sf5
+
+cloud:-
+nikhil
+n1k#!l!@#
+----------
+$and3$h!@#
+Ch@!t321
+spoorthy/$p00rthy!@#
+----------
+nexus:-
+Ch@ith3a123!@#
+
+jenkins:-
+chaithra.c
+Excel@123!@#
+
+Admin\admin@moe123
+
+L3@der$/L3@ders$
+Dynamic/Dyn@m!c
+bhumika/Bhum!k@123
+
+52.186.124.38  zabbix ip
+
+
+curl -v -u anilkumar_nagarajan:A@nilA@nil@#22 --upload-file DB_TANDA.zip https://nexus.ship.gov.sg/repository/seab-eexam2-Package/DB_TANDA.zip -O --ssl-no-revoke
+
+
+curl -v -u anilkumar_nagarajan:'A@nilA@nil@#22' -O https://nexus.ship.gov.sg/repository/seab-eexam2-Package/name.zip --ssl-no-revoke
+{when error }Remove-item alias:curl
+
+
+
+
+
+
+

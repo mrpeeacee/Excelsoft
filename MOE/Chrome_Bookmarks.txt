@@ -1,0 +1,63 @@
+http://192.168.5.102/view/CI%20JOBS/
+
+http://192.168.3.171:8080/view/MOE_Inc_Build_Jobs/
+
+http://sonarqube.excelindia.com:8080/
+
+http://sonarqube.excelindia.com:9000/projects
+
+https://estfs.excelindia.com/tfs/SARAS/TestandAssessment
+
+https://timesheet.excelindia.com/
+
+https://accounts.zohoportal.com/accounts
+
+https://esithelpdesk.excelindia.com/portal/en/signin
+
+https://192.168.1.1:8090/
+
+https://moedeliverybuild.excelindia.com/MOE/eORALTryout/SSOLogin
+
+Build :-
+https://moeauthbuild.excelindia.com/MOE/TAAdmin/ExamManagement
+https://moedeliverybuild.excelindia.com/MOE/TAAdmin/ExamManagement
+https://moedeliverybuild.excelindia.com/MOE/eLCInvigilator/login
+https://moedeliverybuild.excelindia.com/MOE/DataAnalytics/login
+https://moedeliverybuild.excelindia.com/MOE/eORAL/login
+
+CLOUD :-
+https://moe-nnexauth.excelindia.com/MOE/TAAdmin/ExamManagement
+https://moe-delivery.excelindia.com/MOE/TAAdmin/ExamManagement
+https://moe-nnexauth.excelindia.com/Xchange/TAAdmin/ExamManagement
+https://moe-dx.excelindia.com/MOE/ETLDashBoardApplication/Login.aspx
+https://moe-rp.excelindia.com/MOE/DataAnalytics/login
+https://moe-delivery.excelindia.com/MOE/eLCInvigilator/login
+
+SIT :-
+https://eauthor-nonnex.sit-eexam2.seab.gov.sg/MOE/TAAdmin/ExamManagement/
+https://edelivery2.sit-eexam2.seab.gov.sg/MOE/TAAdmin/ExamManagement/
+
+UAT :-
+https://eauthor-nonnex.uat-eexam2.seab.gov.sg/MOE/TAAdmin/ExamManagement/
+https://edelivery2.uat-eexam2.seab.gov.sg/MOE/TAAdmin/ExamManagement/
+https://xchange2.uat-eexam2.seab.gov.sg/Xchange/TAAdmin/ExamManagement
+https://datax.uat-eexam2.seab.gov.sg/MOE/ETLDashBoardApplication/Login.aspx
+https://analytics.uat-eexam2.seab.gov.sg/MOE/DataAnalytics/
+https://edelivery2.uat-eexam2.seab.gov.sg/MOE/eLCInvigilator/login
+
+PreProd :-
+https://eauthor-nonnex.uat-eexam2.seab.gov.sg/MOE_Release/TAAdmin/ExamManagement/
+https://edelivery2.uat-eexam2.seab.gov.sg/MOE_Release/TAAdmin/ExamManagement/
+https://xchange2.uat-eexam2.seab.gov.sg/Xchange_Release/TAAdmin/ExamManagement
+https://datax.uat-eexam2.seab.gov.sg/MOE_Release/ETLDashBoardApplication/Login.aspx
+https://analytics.uat-eexam2.seab.gov.sg/MOE_Release/DataAnalytics/
+https://edelivery2.uat-eexam2.seab.gov.sg/MOE_Release/eLCInvigilator/login
+
+CAT :-
+https://eauthor-nonnex.cat-eexam2.seab.gov.sg/MOE/TAAdmin/ExamManagement/
+https://edelivery2.cat-eexam2.seab.gov.sg/MOE/TAAdmin/ExamManagement/
+https://xchange2.cat-eexam2.seab.gov.sg/Xchange/TAAdmin/ExamManagement
+https://analytics.cat-eexam2.seab.gov.sg/MOE/DataAnalytics/login
+https://datax.cat-eexam2.seab.gov.sg/MOE/ETLDashBoardApplication/Login.aspx
+https://edelivery2.cat-eexam2.seab.gov.sg/MOE/eLCInvigilator/login
+
