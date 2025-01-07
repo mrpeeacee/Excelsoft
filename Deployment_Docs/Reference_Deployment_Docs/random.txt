@@ -1,0 +1,4 @@
+TO BUILD :-
+
+cd E:\Workspace\NMAT\ReleaseEngineering &E: &msbuild /t:item355 incbuild.xml
+

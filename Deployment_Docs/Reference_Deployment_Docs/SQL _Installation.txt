@@ -1,0 +1,24 @@
+Feature Configuration -> data base & SQL check , only local DB check
+Instance Configuration
+
+Server Configuration -> collation -> Mixed mode -> SQL_Latin1_General_CP1_CI_AS
+
+Database Engine Configuration -> Mixed mode -> pwd:- Sa123456
+
+
+To Start SQL
+
+SSMS -> Database Engine-> Server -> Database -> System DB -> Restore -> Device -> select .bak file -> go to files -> uncheck box -> logical file name shud be db name and path(ldf & mdf) -> restored successfully
+
+Security -> new -> SQL Server authentication -> username, pwd , uncheck boxes
+        '-> server roles -> bulkadmin , sysadmin check boxes
+        '-> user mapping -> select DB name
+
+edit webconfig and give appropriate data in respective fields
+
+
+Tools -> SQL Server profiler -> authentication -> Event Selection -> uncheck  all except RPC(uncheck & check) -> Show all columns -> column filters -> database name -> like -> add name -> run
+
+
+
+

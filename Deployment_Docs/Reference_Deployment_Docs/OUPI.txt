@@ -1,0 +1,205 @@
+OUPI
+
+Step 1 -- 
+Check System Spec
+Set remote password As Abc@12#3
+Set Administrator account password As abc123
+Change Hostname 
+Restart
+
+Step 2--
+Login As Administrator 
+Firewall Disable
+AntiVirus Disable
+IIS Install
+.Net Registration with IIS -- 2.0 , 3.0 , 4.0
+Cd  C:\Windows\Microsoft.NET\Framework64\v2.0.50727
+Aspnet_regiis.exe -i
+Cd C:\Windows\Microsoft.NET\Framework64\v3.0\Windows Communication Foundation
+ServiceModelReg.exe -iru
+Cd C:\Windows\Microsoft.NET\Framework64\v4.0.30319
+aspnet_regiis.exe -iru
+iis best practice --> logging,cgi restriction , limits
+
+Step 3 -- 
+Prerequisites installation
+All the software Required 
+-->Insatll AccessDatabaseEngine_x64 --> then insatll -->AccessDatabaseEngine_32 --> Okay
+SQL Installation --> install --> select all --> SQL_Latin1_General_CP1_CI_AS  --> Mixed Mode --> Sa123456 --> Okay
+Check with Prerequites Setup all should be checked
+
+Step 4 --
+Windows Search --> SSMS --> Security --> login--> new Login --> 
+Username --> OUPIDBAdmin
+Password --> OUPIDB@dm!n
+--> encheck enforced password policy and click login or okay 
+--> click on server roles for each login and select BULKadmin and sysadmin leaving Sa 
+
+Step 5 --
+metadata adding
+-->Open E:\OA\DB Scripts and Utils\01_UTL\Utils --> IIS7.0_Metabase_Adding.txt --> open
+-->open C:\Windows\System32\inetsrv\Config --> applicationHost.congfig --> open 
+--> now select httpCompression full from IIS7.0_Metabase_Adding  --> paste to applicationHost.congfig httpCompression line number 277 --> Save --> close all
+
+Step 6 --Cach
+Install OA
+--> create a folder in a drive name it as Oxford Advantage 
+--> now go to E:\OA\Oxford Advantage Installer 5.0.0 --> OxfordAdvantageSetupInstaller.msi --> install --> Change to the required path 
+--> E:\Oxford Advantage folled by Oxford Advantage Installer 5.0.0 --> check weather everyone is checked --> next --> and then again enter username and password 
+Username -->OUPIDBAdmin
+Password --> OUPIDB@dm!n
+--> wait for few minute
+
+Step 7 --
+IIS
+Open IIS --> OA_Resources,OA_RootRepository,OACourseplayer,OAservices --> OAIntegrated4.0
+Services4.0 and subvds , services4.5 and subvds --> OAClassic4.0
+
+Step 8 --
+Error Page setting
+-->error page --> content view --> browse --> AccessDenied.html --> copy the URL
+http://localhost/error_page/AccessDenied.html --> paste in notepad
+change the hostname to find the host name go to cmd --> Run as Administrator  --> type hostname --> replace localhost by hostname 
+http://Practice1/error_page/AccessDenied.html
+In default  web site --> content view --> .NET Error Pages --> Add --> 403 -->http://Practice1/error_page/AccessDenied.html --> ok
+.NET Error Pages --> Add --> 404 -->http://Practice1/error_page/AccessDenied.html --> ok
+.NET Error Pages --> Add --> 500 -->http://Practice1/error_page/AccessDenied.html --> ok
+.NET Error Pages --> Add --> 501 -->http://Practice1/error_page/AccessDenied.html --> ok
+check with all the VDs
+
+In Oxford Advantage -->Activity --> explore -->wen.config copy configurations line 437 -->Paste below configuration
+In Oxford Advantage -->AssessmentBuilder --> explore --> open web.config -->
+Comment 211 and 212
+In Oxford Advantage --> Lesson --> explore --> open web.config -->
+Comment 238
+In Oxford Advantage --> LessonTestPlayer --> explore --> open web.config -->
+Comment 208 and 209
+In Oxford Advantage --> Reports --> explore -->open web.config -->
+Comment 168 to 172
+In Oxford Advantage --> Testplayer --> explore --> open web.config -->
+Comment 201 to 204
+
+Step 9 --
+cache control
+In Oxford Advantage --> Image --> content view --> http response header--> add --> add custom http response header --> name -->cache-control --> value --> public,max-age=604800
+--> Set common header --> select all expire all web contents --> select after --> 180 days --> ok
+
+Step 10--
+session state
+in iis OA_resources,OACourseplayer, OAadvantage --> session state --> cookie setting --> time-out --> set to 40
+
+web.config changes 
+OA_rootrepository --> Explore --> open web.config --> comment mp4 line --> line number 7
+OA_courseplayer --> Explore --> open web.config --> comment mp4 line --> line number 109
+
+In copy batch files 
+E:\OA\DB Scripts and Utils\01_UTL  --> batch file and Sync batch file copy and paste to Oxford Advantage --> add 2 more folder --> email and syncfiledownload 
+
+Content Movement 
+Open --> E:\OA\CopyResourceUtils --> Open CopyOAResource (application) --> Select the resource file give add 1 by 1 --> click on copy resource 
+class content resource, teacher coner resource , learning tool resource
+
+MAC Id
+Note down IP and Mac id
+CMd --> run as admin --> ipconfig -->getmac-->
+Bind MAC ID in central or oupi server
+
+Batch Files
+open 
+E:\Oxford Advantage\BatchFile\DB_Backup  diffbackup and fullbackup --> edit with notepad++
+edit server name and path 
+server name is PRACTICE1\SQLEXPRESS path E:\Oxford Advantage\BatchFile\DB_Backup\Full save 
+E:\Oxford Advantage\BatchFile\DB_Backup\SP to be Updated in MasterDB for DBBackup double click it will navigate to ssms change ALTER To CREATE --> then select master --> excute
+E:\Oxford Advantage\BatchFile\DBBackupDelete --> open DB.bat --> change path name to E:\Oxford Advantage\BatchFile\DB_Backup\Full save and close
+E:\Oxford Advantage\BatchFile\IISLogsCompress & Delete\IISCompress\PowerShellScript_IISLog\Batch File --> open PowerShellScript.bat --> edit with notepad++ 
+	--> change the path to the required path E:\Oxford Advantage\BatchFile\IISLogsCompress & Delete\IISCompress\PowerShellScript_IISLog --> save and close
+
+
+E:\Oxford Advantage\BatchFile\IISLogsCompress & Delete\IISCompress\PowerShellScript_IISLog\IISLog_Archive and Delete older then 30 days.ps1 --> edit with notepad++
+$Source = "C:\inetpub\logs\LogFiles\W3SVC1" 
+$Target = "C:\inetpub\logs\LogFiles\"
+$dump_path = "C:\inetpub\logs\LogFiles\W3SVC1"
+
+E:\Oxford Advantage\BatchFile\Rebuild
+01_RebuildIndex		   -->	SarasDB_K12Saras --> Execute
+002 sp_lib_CommandExecute  -->	SarasDB_K12Saras --> Execute
+003 sp_lib_IndexOptimize   -->  SarasDB_K12Saras --> Execute
+04_RebuildIndex		   -->  MasterDB --> Execute
+close
+E:\Oxford Advantage\BatchFile\Rebuild\Job_All_DB_RebuildIndexing_4AM_Sunday.bat --> 
+Server name --> PRACTICE1\SQLEXPRESS
+User name --> Sa
+Password --> Sa123456 save and close
+
+E:\Oxford Advantage\BatchFile\SQLJobs --> select all Job_SarasDB_K12Saras --> 9 files --> edit with notepad++ -
+Server name --> PRACTICE1\SQLEXPRESS (note:remove ; if its there)
+User name --> Sa
+Password --> Sa123456 save and close
+
+DateUpdater
+E:\OA\DB Scripts and Utils\01_UTL\Windows Services\DateUpdater --> setup --> run as administrator --> next --> select Everyone --> Next --> Finish
+EmailSender
+E:\OA\DB Scripts and Utils\01_UTL\Windows Services\EmailSender --> setup --> run as administrator --> next --> select Everyone --> Next --> Finish
+E:\OA\DB Scripts and Utils\01_UTL\Windows Services\EmailSender\images --> select all copy paste to --> E:\OA\DB Scripts and Utils\01_UTL\Windows Services\EmailSender
+E:\OA\DB Scripts and Utils\01_UTL\Windows Services\EmailSender  --> Select all leaving image folder and setup --> copy -->
+paste to --> C:\Program Files (x86)\Default Company Name\Email Sender Setup 
+
+open --> C:\Program Files (x86)\Default Company Name\DateUpdater Setup\DateUpdaterService.exe --> edit with notepad++ -->   change  
+<add key="ConnectionString" value="Data Source=PRACTICE1\SQLEXPRESS;Initial Catalog=SarasDB_K12Saras;User ID=Sa;Password=Sa123456"/> --> Save and close
+
+C:\Program Files (x86)\Default Company Name\Email Sender Setup\EmailSender.exe --> open 
+    <add key="ConnectionString" value="Data Source=PRACTICE1\SQLEXPRESS;Initial Catalog=SarasDB_K12Saras;User ID=Sa;Password=Sa123456"/>
+    <add key="WelcomePath" value="E:\Oxford Advantage\"/>
+    <add key="AppUrl" value="http://Practice1/OxfordAdvantage/School/Home.aspx"/> (note: in iis Oxford Advantage --> school --> home.aspx --> browse--> edit it should be http)
+    <add key="EmailFolder" value="E:\Oxford Advantage\Email"/>
+    <add key="Repositorypath" value="http://Practice1/OA_RootRepository/"/>
+
+E:\OA\DB Scripts and Utils\01_UTL
+edit
+Oupi_TaskScheduler.bat
+change
+set user=Administrator
+set pass=abc123
+set path1=E:\Oxford Advantage
+
+in (line 22) Job_SarasDB_K12Saras_InsertSummaryAssetTrackingDetails.bat 
+change time from	9:50 to 9:05
+change the ip	/S 192.168.0.116
+Run 
+Oupi_TaskScheduler.bat --> Run as administratior 
+Open task scheduler edit tasks (property-trigger)
+set  repeat task to 4 hour
+
+
+give basic permissions to
+oxford Advantage
+C:\Windows\Microsoft.NET\Framework64\v2.0.50727\Temporary ASP.NET Files
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\Temporary ASP.NET Files
+
+Add School deatils in Oxford advantage
+E:\Oxford Advantage\Oxford Advantage Setup V5.0.0 --> new text file name as SchoolDetails--> paste School code
+
+offline sink tool installation
+E:\OA\OffineSynctool_5.0.0 --> setup --> run as admin --> install -->
+
+
+---------------
+
+
+E:\OA\Online_School_Pull_5.0.0 --> setup --> run as admin --> change the path E:\Oxford Advantage\SyncBatchFile\Pull --> click everyone --> next --> close 
+E:\OA\Online_School_Push_5.0.0 --> setup --> run as admin --> change the path E:\Oxford Advantage\SyncBatchFile\Push --> click everyone --> next --> close 
+
+task scheduler
+--> create task --> name --> change user or group --> select system --> trigger --> new trigger --> select daily --> 09:40am --> select repeat task every --> 4hours
+action --> Browse --> E:\Oxford Advantage\SyncBatchFile\SchoolPull.bat --> condition --> Power uncheck both
+--> create task --> name --> change user or group --> select system --> trigger --> new trigger --> select daily --> 09:50am --> select repeat task every --> 4hours
+action --> Browse --> E:\Oxford Advantage\SyncBatchFile\SchoolPush.bat --> condition --> Power uncheck both
+
+services -->OUPI_Sync_SchoolPull--> doubleclick --> select automatic --> start--> okay
+-->OUPI_Sync_SchoolPush--> doubleclick --> select automatic --> start--> okay
+
+run Pull and Push jobs in task scheduler
+
+Login
+LoginName -- SuperAdmin
+Password -- Exc3lk12s@r@s

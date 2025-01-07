@@ -1,0 +1,24 @@
+* Best Practice -> windows update -> iis install (best practice) -> .net registration -> firewall -> date & time adjust(mmddyyyy)
+
+* SQL installation -> latin general ->sa -> admin@123 -> SSMS -> restart
+
+* Bind MAC id __________________________________________
+
+* services.msc -> sql browser & SQL services -> SQL server properties -> log on -> copy and paste it for permission in AQA
+
+* New folder (AQA) -> give permissions -> 
+
+* Run prequisites as admin -> check
+
+* Run ETL setup -> change path to AQA -> select everyone -> next -> give name and pwd for DB
+
+* inheritance :- AQA -> properties -> security -> advanced -> inheritance -> replace -> apply -> ok
+
+* Install secure browser -> everyone
+
+* Windows run -> ESSB://ISDEMO
+
+*Post install verification -> run as admin -> check
+
+* IIS -> testplayer -> login -> login.aspx -> take test
+

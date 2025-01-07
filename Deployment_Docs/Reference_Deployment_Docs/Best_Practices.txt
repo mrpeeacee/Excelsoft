@@ -1,0 +1,91 @@
+1. services.msc
+ * Background Intelligent Transfer Service
+ * Windows Installer
+ * Windows Modules Installer
+ * Windows Update
+
+2. Check for windows updates (Restart after success)
+
+3. Prequisite installation check (E:\Best_Practice)
+
+4. Setting Server Best Performance
+ * Advanced system settings >> Advanced >> Settings >> Adjust for best performance >> Apply >> OK
+
+5. Disable Shutdown/Restart
+ * gpedit.msc -> userconfiguraton -> Administrative Templates -> Start Menu & Taskbar ->Remove and prevent access to the 
+Shut Down, Restart, Sleep and Hibernate Commands -> Enable
+
+6. Impersonate account creation
+ * Computer Management -> Local Users and Groups -> Users -> New User -> UN:sarasrepouser, pwd: repou$3r -> check user cannot chnage pwd & pwd never expires
+ * Right click on SarasRepouser -> Go to Properties - > Go to Member of Tab -> Type ‘Administrators’ and click check Names -> OK
+
+7. Registering Dot Net Frameworks with  (both 2.0 & 3.0 Framework)
+ * cmd as administrator
+ * (Cd C:\Windows\Microsoft.NET\Framework64\v2.0.50727) after navigation
+ * “Aspnet_regiis.exe -i” 
+ * Cd C:\Windows\Microsoft.NET\Framework64\v3.0\Windows Communication Foundation
+ * “ServiceModelReg.exe -iru” 
+
+8. inetmgr -> server Name -> Double Click -> ISAPI and CGI Restrictions -> Allow for both ASP.NET version
+
+9. Disabling Unsecure SSL/TLS on Registry 
+ * Go to Registry Editor -> HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols
+ 
+(a) Disable SSL 2.0 Protocols
+ * Protocol -> SSL 2.0 -> Client -> New -> DWORD (32-bit) -> DisabledByDefault -> 1 
+ * Protocol -> SSL 2.0 -> Server -> New -> DWORD (32-bit) -> Enabled -> 0
+
+(b) Disable SSL 3.0 Protocols
+ * Protocol -> SSL 3.0 -> Client -> New -> DWORD (32-bit) -> DisabledByDefault -> 1 
+ * Protocol -> SSL 3.0 -> Server -> New -> DWORD (32-bit) -> Enabled -> 0
+
+(c) Disable TLS 1.0 Protocols
+* Protocol -> TLS 1.0 -> Client -> New -> DWORD (32-bit) -> Enabled -> 0
+* Protocol -> TLS 1.0 -> Client -> New -> DWORD (32-bit) -> DisabledByDefault -> 1 
+
+* Protocol -> TLS 1.0 -> Server-> New -> DWORD (32-bit) -> Enabled -> 0 
+* Protocol -> TLS 1.0 -> Server-> New -> DWORD (32-bit) -> DisabledByDefault -> 1  
+
+(d) Disable TLS 1.1 Protocols
+* Protocol -> TLS 1.1 -> Client -> New -> DWORD (32-bit) -> Enabled -> 0
+* Protocol -> TLS 1.1 -> Client -> New -> DWORD (32-bit) -> DisabledByDefault -> 1 
+
+* Protocol -> TLS 1.1 -> Server-> New -> DWORD (32-bit) -> Enabled -> 0 
+* Protocol -> TLS 1.1 -> Server-> New -> DWORD (32-bit) -> DisabledByDefault -> 1
+
+(e) Enable TLS 1.2 Protocols
+* Protocol -> TLS 1.2 -> Client -> New -> DWORD (32-bit) -> Enabled -> 1
+* Protocol -> TLS 1.2 -> Client -> New -> DWORD (32-bit) -> DisabledByDefault -> 0 
+
+* Protocol -> TLS 1.2 -> Server-> New -> DWORD (32-bit) -> Enabled -> 1 
+* Protocol -> TLS 1.2 -> Server-> New -> DWORD (32-bit) -> DisabledByDefault -> 0
+
+10. IIS Logs File Settings
+ * inetmgr -> Logging (feature view) -> Select_Fields(All) -> Directory(E:\IISlogs) -> Schedule -> Max File Size 3000000
+
+11. IIS Limits Setting
+ * inetmgr -> Configure -> Limits -> Connection time-out(600)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

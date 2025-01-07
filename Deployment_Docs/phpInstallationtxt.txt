@@ -1,0 +1,30 @@
+Open your browser to Windows for PHP Download Page and download the PHP non-thread-safe zip package.
+Download the WinCache extension from the List of Windows Extensions for PHP.
+Extract all files in the PHP .zip package to a folder of your choice, for example C:\PHP\.
+Extract the WinCache .zip package to the PHP extensions folder (\ext), for example C:\PHP\ext. The WinCache .zip package contains one file (Php_wincache.dll).
+Open Control Panel, click System and Security, click System, and then click Advanced system settings.
+In the System Properties window, select the Advanced tab, and then click Environment Variables.
+Under System variables, select Path, and then click Edit.
+Add the path to your PHP installation folder to the end of the Variable value, for example ;C:\PHP. Click OK.
+Open IIS Manager, select the hostname of your computer in the Connections panel, and then double-click Handler Mappings.
+In the Action panel, click Add Module Mapping.
+In Request path, type *.php.
+From the Module menu, select FastCgiModule.
+In the Executable box, type the full path to Php-cgi.exe, for example C:\PHP\Php-cgi.exe.
+In Name, type a name for the module mapping, for example FastCGI.
+Click OK.
+Select the hostname of your computer in the Connections panel, and double-click Default Document.
+In the Action panel, click Add. Type Index.php in the Name box, and then click OK.
+Click Add again. Type Default.php in the Name box, and then click OK.
+To test your PHP installation
+Open a text editor, for example Notepad, as Administrator.
+
+In a new file, type the following text: <?php phpinfo(); ?>
+
+Save the file as C:\inetpub\wwwroot\Phpinfo.php.
+
+Open a browser and enter the following URL:
+
+http://localhost/phpinfo.php
+
+A nicely formatted webpage is displayed showing the current PHP settings.
