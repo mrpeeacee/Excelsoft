@@ -1,0 +1,2 @@
+C:\>wmic product get name
+D:\>wmic product get name > programs.txt
