@@ -1,0 +1,1 @@
+﻿Start-Process cmd.exe -Verb RunAs -ArgumentList "/k iisreset -status"

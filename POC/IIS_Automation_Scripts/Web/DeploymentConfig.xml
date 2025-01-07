@@ -1,0 +1,133 @@
+<Project  xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <ItemGroup>
+    <folderpermission Include="$(TADest)" />
+    <encryptconnectionstring Include="$(TATestplayer)\Web.config;$(TAEMS)\Web.config"/>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <Targetserver>localhost</Targetserver>
+    <ServerIP>172.31.50.218</ServerIP>
+    <RepositoryServer>localhost</RepositoryServer>
+    <DBserver>localhost</DBserver>
+    <Websitename>Default Web Site</Websitename>
+    <Drivename>D</Drivename>
+    <Sourcefolder>Project</Sourcefolder>
+    <SourceRepository>Project\RootRepository</SourceRepository>
+    <Stagepath>\\$(ServerIP)\$(Drivename)$\Stage\</Stagepath>
+    <RootPhysicalpath>$(Drivename):\$(Sourcefolder)</RootPhysicalpath>
+	<Sharepath>D:\Workspace\MOE-SEAB\ReleaseEngineering\Build\MOE\Web</Sharepath>
+	
+	
+    
+    <!--App pool section-->
+    <FrameworkVersion>ASP.NET v4.0</FrameworkVersion>
+    <Defaultpool>DefaultAppPool</Defaultpool>
+	<MOEApppool>MOE</MOEApppool>
+    <TAAdminApppool>TAAdminPool</TAAdminApppool>
+	<ExamManagementApppool>ExamManagementPool</ExamManagementApppool>
+	<DataContainerViewApppool>DataContainerViewPool</DataContainerViewApppool>
+	<EMSApppool>EMSPool</EMSApppool>
+	<ReportInterfaceApppool>ReportInterfacePool</ReportInterfaceApppool>
+	<ExcelImportApppool>ExcelImportPool</ExcelImportApppool>
+	<SampleTemplatesApppool>SampleTemplatesPool</SampleTemplatesApppool>
+	<eLCInvigilatorApppool>eLCInvigilatorPool</eLCInvigilatorApppool>
+	<LCInvigilatorManagementApiApppool>LCInvigilatorManagementApiPool</LCInvigilatorManagementApiApppool>
+	<TestPlayerApppool>TestPlayerPool</TestPlayerApppool>
+	<eORALApppool>eORALPool</eORALApppool>
+	<eLCTryOutApppool>eLCTryOutPool</eLCTryOutApppool>
+	<eOralWebAPIApppool>eOralWebAPIPool</eOralWebAPIApppool>
+	<MediaAppApppool>MediaAppPool</MediaAppApppool>
+	<RootRepositoryApppool>RootRepositoryPool</RootRepositoryApppool>
+	
+	<QueueLength>65535</QueueLength>
+    <IdleTimeOut>0</IdleTimeOut>
+    <AppPipelinemode>Integrated</AppPipelinemode>
+    <ASPNetVersion>v4.0</ASPNetVersion>
+	<IdentityUsername>ApplicationPoolIdentity</IdentityUsername>
+	
+	<!--App pool section end-->
+
+
+   <!--Folder names of the modules started-->
+    <TAAdminfoldername>TestPrepAdmin</TAAdminfoldername>
+    <ExamManagementfoldername>ExamManagement</ExamManagementfoldername>
+    <DataContainerViewfoldername>DataContainerView</DataContainerViewfoldername>
+	<EMSfoldername>EMS</EMSfoldername>
+	<ReportInterfacefoldername>ReportInterface</ReportInterfacefoldername>
+    <ExcelImportfoldername>ExcelImport</ExcelImportfoldername>
+	<SampleTemplatesfoldername>SampleTemplates</SampleTemplatesfoldername>
+	<eLCInvigilatorfoldername>eLCInvigilator</eLCInvigilatorfoldername>
+	<LCInvigilatorManagementApifoldername>LCInvigilatorManagementApi</LCInvigilatorManagementApifoldername>
+	<TestPlayerfoldername>TestPlayer</TestPlayerfoldername>
+    <eLCTryOutfoldername>eLCTryOut</eLCTryOutfoldername>
+	<eORALfoldername>eORAL</eORALfoldername>
+	<eOralWebAPIfoldername>eOralWebAPI</eOralWebAPIfoldername>
+	<MediaAppfoldername>MediaApp</MediaAppfoldername>
+	<RootRepositoryfoldername>RootRepository</RootRepositoryfoldername>
+	<!--Folder names of the modules Ended -->
+
+	
+    <!--Virtual directory section VD Name For creation-->
+    <RootVD>MOE</RootVD>
+    <AdminVD>$(RootVD)/TAAdmin</AdminVD>
+    <ExamManagementVD>$(RootVD)/$(AdminVD)/ExamManagement</ExamManagementVD>
+	<DataContainerViewVD>$(RootVD)/$(AdminVD)/DataContainerView</DataContainerViewVD>
+    <EMSVD>$(RootVD)/$(AdminVD)/EMS</EMSVD>
+	<ReportInterfaceVD>$(RootVD)/$(AdminVD)/ReportInterface</ReportInterfaceVD>
+    <ExcelimportVD>$(RootVD)/$(AdminVD)/ExcelImport</ExcelimportVD>
+	<SampleTemplatesVD>$(RootVD)/$(AdminVD)/$(ExcelimportVD)/SampleTemplates</SampleTemplatesVD>
+	<eLCInvigilatorVD>$(RootVD)/eLCInvigilator</eLCInvigilatorVD>
+	<LCInvigilatorManagementApiVD>$(RootVD)/LCInvigilatorManagementApi</LCInvigilatorManagementApiVD>
+	<TestPlayerVD>$(RootVD)/TestPlayer</TestPlayerVD>
+    <eLCTryOutVD>$(RootVD)/eLCTryOut</eLCTryOutVD>
+	<eORALVD>$(RootVD)/eORAL</eORALVD>
+	<eOralWebAPIVD>$(RootVD)/eOralWebAPI</eOralWebAPIVD>
+	<MediaAppVD>$(RootVD)/MediaApp</MediaAppVD>
+	<RootRepositoryVD>$(RootVD)/RootRepository</RootRepositoryVD>
+    <!--Virtual directory section end-->
+
+	
+	
+    <!--Application folder section- No need to edit-->
+	<RootPhysicalpath>$(Drivename):\$(Sourcefolder)</RootPhysicalpath>
+    <TAAdminPhysicalpath>$(Drivename):\$(Sourcefolder)\$(TAAdminfoldername)</TAAdminPhysicalpath>
+    <ExamManagementPhysicalpath>$(Drivename):\$(Sourcefolder)\$(TAAdminfoldername)\$(ExamManagementfoldername)</ExamManagementPhysicalpath>
+    <DataContainerViewPhysicalpath>$(Drivename):\$(Sourcefolder)\$(TAAdminfoldername)\$(DataContainerViewfoldername)</DataContainerViewPhysicalpath>
+    <EMSPhysicalpath>$(Drivename):\$(Sourcefolder)\$(TAAdminfoldername)\$(EMSfoldername)</EMSPhysicalpath>
+    <ExcelimportPhysicalpath>$(Drivename):\$(Sourcefolder)\$(TAAdminfoldername)\$(Excelimportfoldername)</ExcelimportPhysicalpath>
+	<ReportInterfacePhysicalpath>$(Drivename):\$(Sourcefolder)\$(TAAdminfoldername)\$(ReportInterfacefoldername)</ReportInterfacePhysicalpath>
+	<SampleTemplatesPhysicalpath>$(Drivename):\$(Sourcefolder)\$(TAAdminfoldername)\$(Excelimportfoldername)\$(SampleTemplatesfoldername)</SampleTemplatesPhysicalpath>
+	<TestPlayerPhysicalpath>$(Drivename):\$(Sourcefolder)\$(Testplayerfoldername)</TestPlayerPhysicalpath>
+    <eLCInvigilatorPhyicalpath>$(Drivename):\$(Sourcefolder)\$(eLCInvigilatorfoldername)</eLCInvigilatorPhyicalpath>
+	<LCInvigilatorManagementApiPhysicalpath>$(Sourcefolder)\$(LCInvigilatorManagementApifoldername)</LCInvigilatorManagementApiPhysicalpath>
+	<eLCTryOutPhysicalpath>$(Sourcefolder)\$(eLCTryOutfoldername)eLCTryOutfoldername</eLCTryOutPhysicalpath>
+	<eORALPhysicalpath>$(Sourcefolder)\$(eORALfoldername)</eORALPhysicalpath>
+	<eOralWebAPIPhysicalpath>$(Sourcefolder)\$(eOralWebAPIfoldername)</eOralWebAPIPhysicalpath>
+	<MediaAppPhysicalpath>$(Sourcefolder)\$(MediaAppfoldername)</MediaAppPhysicalpath>
+	<RepositoryPhysicalpath>$(Sourcefolder)\$(RootRepositoryfoldername)</RepositoryPhysicalpath>
+	<!--Application folder section end-->
+	
+
+    <!--Deployment section-->
+    <TADest>$(Drivename):\$(Sourcefolder)</TADest>
+    <Sharepath>\\$(ServerIP)\$(Drivename)$\$(Sourcefolder)\MOE</Sharepath>
+	<Sharepath1>D:\BuildPackages\DL\Web</Sharepath1>
+    <BackupLocation>\\$(Targetserver)\$(Drivename)$\$(Sourcefolder)</BackupLocation>
+    <!--Deployment section end-->
+
+    <!--User Identity Section-->
+   <!-- <IdentityUsername>saras</IdentityUsername>
+    <IdentityPassword>test1!234</IdentityPassword>-->
+	<IdentityUsername>ApplicationPoolIdentity</IdentityUsername>
+    <IdentityPassword></IdentityPassword>
+    <!-- <Serverusername>sarasautomation\autodep</Serverusername>
+    <Serverpassword>autodep@123</Serverpassword>
+    <RepServerusername>RepUser</RepServerusername>
+    <RepServerpassword>Reppwd</RepServerpassword>
+    <DBServerusername>192.168.4.247\SarasAuto</DBServerusername>
+    <DBServerpassword>SarasAuto123</DBServerpassword> -->
+    <!--User Identity Section end-->
+
+  </PropertyGroup>
+</Project>

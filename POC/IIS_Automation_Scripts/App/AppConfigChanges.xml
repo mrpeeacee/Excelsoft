@@ -1,0 +1,56 @@
+<Project  xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Import Project=".\DeploymentConfig.xml"/>
+  <PropertyGroup>
+
+    <!--Common configuration section start-->
+    <DNS>https://app-nlb.excelindia.com/</DNS>
+    <loginUrl>/MOE/TAAdmin//Common/Login/Login.aspx</loginUrl>
+	<Logout>/$(AdminVD)/ExamManagement</Logout>
+	<RedirectToWorkFlow>/$(WorkflowVD)/ItemPresentation/WorkflowManageAssets.aspx</RedirectToWorkFlow>
+	<ErrorPage>/$(TestPlayerVD)/Error.aspx</ErrorPage>
+	<TestManagementApi>$(DNS)MoE/TestDeliveryAPI/</TestManagementApi>
+	<ValidateSession>0</ValidateSession>
+	
+	
+	<!--AdministrationWebApi VD configuration section start-->
+	<LogoutURL>/MOE/TAAdmin/ExamManagement</LogoutURL>
+	<SessionLogoutURL>/MOE/TAAdmin/ExamManagement?Session=1</SessionLogoutURL>
+	<BubbleSheetGeneratorURL>$(DNS)/PBS/GenerateBubbleSheet.aspx</BubbleSheetGeneratorURL>
+	<ContentPath>D:\RootRepository</ContentPath>
+	<MySettingURl>/MOE/TAAdmin/Common/MySettings.aspx?menuid=0,1</MySettingURl>
+	<SharedRepositoryPath>D:\RootRepository</SharedRepositoryPath>
+	<SSOForTandEAdministration></SSOForTandEAdministration>
+	<SSOForTandECollector>/MOE/TAAdmin/TNE/testsummary?</SSOForTandECollector>
+	<PackageFolder>D:\RootRepository\DistributedRepositories\DX\Packages\</PackageFolder>
+	<TemporaryFolder>D:\RootRepository\DXTemp\Packages\</TemporaryFolder>
+	<DateFormateValue>dd/MM/yyyy hh:mm:ss tt</DateFormateValue>
+	
+	<!--AdministrationWebApi VD configuration section start-->
+	<EncryptionKeySSO>EkI4dvsE1p1REtQ/lkcFKNeGR+YB57QEFKmsCv3J6MMO6j14Xo4s6yHThhSdScl/</EncryptionKeySSO>
+	
+	<!--Repository configuration section start-->
+	<RepositorySharedpath>D:\RootRepository</RepositorySharedpath>
+    <RepositoryPath>/RootRepository/</RepositoryPath>
+	<RepositoryName>RootRepository</RepositoryName>
+	<RepositoryPathUpload>$(RepositorySharedpath)ContentPackages\FileUDDResource\</RepositoryPathUpload>
+	<!--AnalyticalReport configuration section start-->
+	
+	<DataEncryptionKey>K+iCU4H+AtV4uy0+Skmo8w==</DataEncryptionKey>
+	
+	<EnpConnectionString>d5AIrTaRPwvZGpxhUsCE+HHROEqqHDx85mgzyfhq5LtFXFKzADgJ4vRzCxsyTShakTFTLCdQYiRtiENcWZiBJo329QAlBHQQb0oF1UxBpJ22P44fW4tgBj62I7Eh4XMcypcsJerDB6qTuXZEgHJGwCfYWn8ggekjOpJCEPaS9JaKhF0LSAJ36o349l4NVuQvWlLb3yDDXySJSDrhc2cqZdBUD/LUhzkh0V+pBKSTHXk=</EnpConnectionString>
+	<EnpConnectionString1>d5AIrTaRPwvZGpxhUsCE+HHROEqqHDx85mgzyfhq5LtFXFKzADgJ4vRzCxsyTShakTFTLCdQYiRtiENcWZiBJo329QAlBHQQb0oF1UxBpJ22P44fW4tgBj62I7Eh4XMcypcsJerDB6qTuXZEgHJGwCfYWn8ggekjOpJCEPaS9JY41FZX51QLQ7QBbCQS1gwJHYvVa+dj+X1Q1CtsWueBNaeCe465/nxvN9/1GhfFVfY=</EnpConnectionString1>
+	<DBDataContainer>Data Source=sarasdb-ta-moe-seab-sql-web-edition.c7uyjk7fd9rr.ap-southeast-1.rds.amazonaws.com;Initial Catalog=SarasDB_TA_MOE_SEAB_Delivery;Integrated Security=SSPI</DBDataContainer>	
+	<DBFramewrok>Data Source=sarasdb-ta-moe-seab-sql-web-edition.c7uyjk7fd9rr.ap-southeast-1.rds.amazonaws.com;Initial Catalog=SarasDB_TA_MOE_SEAB_Delivery;Integrated Security=SSPI</DBFramewrok>
+	
+	<!--key added on 2/3/2022-->
+	<TimeZone>8</TimeZone>
+	<CBP_S3_Zip_JobLocation>D:\Project\CBPAwsS3Files\TA.Utilities.ZipAwsS3Files.exe</CBP_S3_Zip_JobLocation>
+	<AppPath>D:\Project\MOE\TestDeliveryAPI</AppPath>
+	<ApplicationVirtualDir>D:\Project\MOE\TestDeliveryAPI</ApplicationVirtualDir>
+	<CommandTimeOut>0</CommandTimeOut>
+	<cIsOfflineTestEnabled>0</cIsOfflineTestEnabled>
+	<FolderName>cbp-zip-Cloud/</FolderName>
+	
+	
+  </PropertyGroup>
+</Project>

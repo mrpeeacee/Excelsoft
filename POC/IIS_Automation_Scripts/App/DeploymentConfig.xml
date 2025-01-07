@@ -1,0 +1,132 @@
+<Project  xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <ItemGroup>
+    <folderpermission Include="$(TADest)" />
+    <encryptconnectionstring Include="$(TATestplayer)\Web.config;$(TAEMS)\Web.config"/>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <Targetserver>localhost</Targetserver>
+    <ServerIP>172.31.52.42</ServerIP>
+    <RepositoryServer>localhost</RepositoryServer>
+    <DBserver>localhost</DBserver>
+    <Websitename>Default Web Site</Websitename>
+    <Drivename>D</Drivename>
+    <Sourcefolder>Project</Sourcefolder>
+    <SourceRepository>Project\RootRepository</SourceRepository>
+    <Stagepath>\\$(ServerIP)\$(Drivename)$\Stage\</Stagepath>
+    <RootPhysicalpath>$(Drivename):\$(Sourcefolder)\MOEService</RootPhysicalpath>
+	<Sharepath>D:\Workspace\MOE-SEAB\ReleaseEngineering\Build\MOE\App</Sharepath>
+	
+	
+    
+    <!--App pool section-->
+    <FrameworkVersion>ASP.NET v4.0</FrameworkVersion>
+    <Defaultpool>DefaultAppPool</Defaultpool>
+    <Apppool>MoETA</Apppool>
+    <AdministrationWebApiApppool>AdministrationWebApi</AdministrationWebApiApppool>
+	<DataContainerViewAPIApppool>ExamManagementApiPool</ExamManagementApiApppool>
+	<DataContainerViewAPIApppool>DataContainerViewAPIPool</DataContainerViewAPIApppool>
+	<LCManagementApiApppool>LCManagementApiPool</LCManagementApiApppool>
+	<FrameworkThreadApppool>FrameworkThreadPool</FrameworkThreadApppool>
+	<TestDeliveryAPIApppool>TestDeliveryAPIPool</TestDeliveryAPIApppool>
+	<TAServicesApppool>TAServicesPool</TAServicesApppool>
+	<TestWorkflowWebApiApppool>TestWorkflowWebApiPool</TestWorkflowWebApiApppool>
+	<TransferServiceApppool>TransferServiceAPIPool</TransferServiceApppool>
+	<ClientInfoForExamCentreReadinessApppool>ClientInfoForExamCentreReadinessPool</ClientInfoForExamCentreReadinessApppool>
+	<WebTestAPPpool>WebTestAPPPool</WebTestAPPpool>
+	<eOralAppAPIPoolpool>eOralAppAPIPool</eOralAppAPIPoolApppool>
+	<eExam2IntegrationAPIpool>eExam2IntegrationAPIPool</eExam2IntegrationAPIApppool>
+	<RepositoryApppool>RootRepositoryPool</RepositoryApppool>
+    <MediaServicepool>MediaServicePool</MediaServicepool>
+	
+	<QueueLength>65535</QueueLength>
+    <IdleTimeOut>0</IdleTimeOut>
+    <AppPipelinemode>Integrated</AppPipelinemode>
+    <ASPNetVersion>v4.0</ASPNetVersion>
+	
+	<!--App pool section end-->
+
+
+   <!--Folder names of the modules started-->
+	
+    <AdministrationWebApifoldername>AdministrationWebApi</AdministrationWebApifoldername>
+    <DataContainerViewAPIfoldername>DataContainerViewAPI</DataContainerViewAPIfoldername>
+    <ExamManagementApifoldername>ExamManagementApi</ExamManagementApifoldername>
+    <FrameworkThreadfoldername>FrameworkThread</FrameworkThreadfoldername>
+    <LCManagementApifoldername>LCManagementApi</LCManagementApifoldername>
+    <TAServicesfoldername>TAServices</TAServicesfoldername>
+    <TestDeliveryAPIfoldername>TestDeliveryAPI</TestDeliveryAPIfoldername>
+	<RootRepositoryfoldername>RootRepository</RootRepositoryfoldername>
+	<TransferServiceAPIfoldername>TransferServiceAPI</TransferServiceAPIfoldername>
+    <MediaServicefoldername>MediaService</MediaServicefoldername>
+	<ClientInfoForExamCentreReadinessfoldername>ClientInfoForExamCentreReadiness</ClientInfoForExamCentreReadinessfoldername>
+	<WebTestAPPfoldername>WebTestAPP</WebTestAPPfoldername>
+	<eOralAppAPIfoldername>eOralAppAPI</eOralAppAPIfoldername>
+    <eExam2IntegrationAPIfoldername>eExam2IntegrationAPI</eExam2IntegrationAPIfoldername>
+	
+	<!--Folder names of the modules Ended -->
+
+	
+    <!--Virtual directory section VD Name For creation-->
+    <RootVD>MOE</RootVD>
+    <AdministrationWebApiVD>$(RootVD)/AdministrationWebApi</AdministrationWebApiVD>
+    <DataContainerViewAPIVD>$(RootVD)/DataContainerViewAPI</DataContainerViewAPIVD>
+    <ExamManagementApiVD>$(RootVD)/ExamManageOralAppAPIVDementApi</ExamManagementApiVD>
+    <FrameworkThreadVD>$(RootVD)/FrameworkThread</FrameworkThreadVD>
+    <LCManagementApiVD>$(RootVD)/LCManagementApi</LCManagementApiVD>
+    <TAServicesVD>$(RootVD)/TAServices</TAServicesVD>
+    <TestDeliveryAPIVD>$(RootVD)/TestDeliveryAPI</TestDeliveryAPIVD>
+	<RootRepositoryVD>$(RootVD)/RootRepository</RootRepositoryVD>
+	<TransferServiceAPIVD>$(RootVD)/TransferServiceAPI</TransferServiceAPIVD>
+	<MediaServiceVD>$(RootVD)/MediaService</MediaServiceVD>
+	<ClientInfoForExamCentreReadinessVD>$(RootVD)/ClientInfoForExamCentreReadiness</ClientInfoForExamCentreReadinessVD>
+	<WebTestAPPVD>$(RootVD)/WebTestAPP</WebTestAPPVD>
+	<eOralAppAPIVD>$(RootVD)/eOralAppAPI</eOralAppAPIVD>
+	<eExam2IntegrationAPIVD>$(RootVD)/eExam2IntegrationAPI</eExam2IntegrationAPIVD>
+	
+    <!--Virtual directory section end-->
+
+	
+	
+    <!--Application folder section- No need to edit-->
+    <AdministrationWebApiPhysicalpath>$(Drivename):\$(Sourcefolder)\$(AdministrationWebApifoldername)</AdministrationWebApiPhysicalpath>
+    <DataContainerViewAPIPhysicalpath>$(Drivename):\$(Sourcefolder)\$(DataContainerViewAPIfoldername)</DataContainerViewAPIPhysicalpath>
+    <ExamManagementApiPhysicalpath>$(Drivename):\$(Sourcefolder)\$(ExamManagementApifoldername)</ExamManagementApiPhysicalpath>
+    <FrameworkThreadPhysicalpath>$(Drivename):\$(Sourcefolder)\$(FrameworkThreadfoldername)</FrameworkThreadPhysicalpath>
+    <LCManagementApiPhysicalpath>$(Drivename):\$(Sourcefolder)\$(LCManagementApifoldername)</LCManagementApiPhysicalpath>
+    <TAServicesPhysicalpath>$(Drivename):\$(Sourcefolder)\$(TAServicesfoldername)</TAServicesPhysicalpath>
+    <TestDeliveryAPIPhysicalpath>$(Drivename):\$(Sourcefolder)\$(TestDeliveryAPIfoldername)</TestDeliveryAPIPhysicalpath>
+    <TransferServiceAPIPhysicalpath>$(Drivename):\$(Sourcefolder)\$(TransferServiceAPIfoldername)</TransferServiceAPIPhysicalpath>
+	<RepositoryPhysicalpath>$(Sourcefolder)\RootRepositoryfoldername</RepositoryPhysicalpath>
+	<MediaServicePhysicalpath>$(Sourcefolder)\MediaServicefoldername</MediaServicePhysicalpath>
+	<ClientInfoForExamCentreReadinessPhysicalpath>$(Sourcefolder)\ClientInfoForExamCentreReadinessfoldername</ClientInfoForExamCentreReadinessPhysicalpath>
+	<WebTestAPPPhysicalpath>$(Sourcefolder)\WebTestAPPfoldername</WebTestAPPPhysicalpath>
+	<eOralAppAPIPhysicalpath>$(Sourcefolder)\eOralAppAPIfoldername</eOralAppAPIPhysicalpath>
+	<eExam2IntegrationAPIPhysicalpath>$(Sourcefolder)\eExam2IntegrationAPIfoldername</eExam2IntegrationAPIPhysicalpath>
+	
+	<!--Application folder section end-->
+	
+
+    <!--Deployment section-->
+    <TADest>$(Drivename):\$(Sourcefolder)</TADest>
+    <Sharepath>\\$(ServerIP)\$(Drivename)$\$(Sourcefolder)\MOE</Sharepath>
+	<Sharepath1>D:\BuildPackages\DL\App</Sharepath1>
+    <BackupLocation>\\$(Targetserver)\$(Drivename)$\$(Sourcefolder)</BackupLocation>
+    <!--Deployment section end-->
+
+    <!--User Identity Section-->
+   <!-- <IdentityUsername>saras</IdentityUsername>
+    <IdentityPassword>test1!234</IdentityPassword>-->
+	<IdentityUsername>ApplicationPoolIdentity</IdentityUsername>
+    <IdentityPassword></IdentityPassword>
+    <!-- <Serverusername>sarasautomation\autodep</Serverusername>
+    <Serverpassword>autodep@123</Serverpassword>
+    <RepServerusername>RepUser</RepServerusername>
+    <RepServerpassword>Reppwd</RepServerpassword>
+    <DBServerusername>192.168.4.247\SarasAuto</DBServerusername>
+    <DBServerpassword>SarasAuto123</DBServerpassword> -->
+    <!--User Identity Section end-->
+
+  </PropertyGroup>
+</Project>

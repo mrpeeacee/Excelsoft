@@ -1,0 +1,558 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
+  <Import Project="$(MSBuildExtensionsPath)\ExtensionPack\4.0\MSBuild.ExtensionPack.tasks"/>
+  <!--$(MSBuildExtensionsPath)-C:\Program Files (x86)\MSBuild-->
+  <Import Project=".\DeploymentConfig.xml"/>
+  <Import Project=".\AppConfigChanges.xml"/>
+  <UsingTask TaskName="FindandReplace" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+    <ParameterGroup>
+      <Path ParameterType="System.String" Required="true" />
+      <Token ParameterType="System.String" Required="true" />
+      <Replacement ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Using Namespace="System.Text.RegularExpressions"/>
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[
+        string cont = File.ReadAllText(Path);
+        cont = Regex.Replace(cont, Token, Replacement, RegexOptions.IgnoreCase);
+        File.WriteAllText(Path,cont);
+        ]]>
+      </Code>
+    </Task>
+  </UsingTask>
+  <ItemGroup>
+    <Application Include="/$(RootVD)">
+      <PhysicalPath>$(RootPhysicalpath)</PhysicalPath>
+      <AppPool>$(Apppool)</AppPool>
+    </Application>
+    <Application Include="/$(AdministrationWebApiVD)">
+      <PhysicalPath>$(AdministrationWebApiPhysicalpath)</PhysicalPath>
+      <AppPool>$(AdministrationWebApiPool)</AppPool>
+    </Application>
+	<Application Include="/$(DataContainerViewAPIVD)">
+      <PhysicalPath>$(DataContainerViewPhysicalpath)</PhysicalPath>
+      <AppPool>$(DataContainerViewPool)</AppPool>
+    </Application>
+    <Application Include="/$(ExamManagementApiVD)">
+      <PhysicalPath>$(ExamManagementApiPhysicalpath)</PhysicalPath>
+      <AppPool>$(ExamManagementApiPool)</AppPool>
+    </Application>
+    <Application Include="/$(FrameworkThreadVD)">
+      <PhysicalPath>$(FrameworkThreadPhysicalpath)</PhysicalPath>
+      <AppPool>$(FrameworkThreadPool)</AppPool>
+    </Application>
+    <Application Include="/$(LCManagementApiVD)">
+      <PhysicalPath>$(LCManagementApiPhysicalpath)</PhysicalPath>
+      <AppPool>$(LCManagementApiPool)</AppPool>
+    </Application>
+    <Application Include="/$(TAServicesVD)">
+      <PhysicalPath>$(TAServicesPhysicalpath)</PhysicalPath>
+      <AppPool>$(TAServicesPool)</AppPool>
+    </Application>
+    <Application Include="/$(TestDeliveryAPIVD)">
+      <PhysicalPath>$(TestDeliveryAPIPhysicalpath)</PhysicalPath>
+      <AppPool>$(TestDeliveryAPIPool)</AppPool>
+    </Application>
+    <Repository Include="/$(RootRepositoryVD)">
+      <PhysicalPath>$(RepositoryPhysicalpath)</PhysicalPath>
+      <AppPool>$(RepositoryApppool)</AppPool>
+    </Repository>
+	<Application Include="/$(TransferServiceAPIVD)">
+      <PhysicalPath>$(TransferServiceAPIPhysicalpath)</PhysicalPath>
+      <AppPool>$(TransferServiceAPIPool)</AppPool>
+    </Application>
+		
+	<Application Include="/$(MediaServiceVD)">
+      <PhysicalPath>$(MediaServicePhyicalpath)</PhysicalPath>
+      <AppPool>$(MediaServicepool)</AppPool>
+    </Application>
+	
+	<Application Include="/$(ClientInfoForExamCentreReadinessVD)">
+      <PhysicalPath>$(ClientInfoForExamCentreReadinessPhyicalpath)</PhysicalPath>
+      <AppPool>$(ClientInfoForExamCentreReadinesspool)</AppPool>
+    </Application>
+	
+	<Application Include="/$(WebTestAPPVD)">
+      <PhysicalPath>$(WebTestAPPPhyicalpath)</PhysicalPath>
+      <AppPool>$(WebTestAPPpool)</AppPool>
+    </Application>
+	
+	<Application Include="/$(eOralAppAPIVD)">
+      <PhysicalPath>$(eOralAppAPIPhyicalpath)</PhysicalPath>
+      <AppPool>$(eOralAppAPIpool)</AppPool>
+    </Application>
+	
+	<Repository Include="/$(eExam2IntegrationAPIVD)">
+      <PhysicalPath>$(eExam2IntegrationAPIPhyicalpath)</PhysicalPath>
+      <AppPool>$(eExam2IntegrationAPIpool)</AppPool>
+    </Repository>
+	
+  </ItemGroup>
+
+  <Target Name="AppDeployment" DependsOnTargets="StopServices;CreateApppool;CreateWebApp;protocol;StartServices">
+    <Exec Command="echo	Deployment is completed successfully >> &quot;.\Buildsummary.txt&quot;" />
+  </Target>
+
+  <Target Name="StopServices">
+    <Exec Command="IISReset -stop" />
+  </Target>
+  
+  <Target Name="Backup_Folder">
+    <Exec Command= "if exist $(TADest) ren $(TADest) &quot;MOE_$([System.DateTime]::Now.ToString(yyyy_MM_dd_HH_mm_ss))&quot;" ContinueOnError="false" />
+    <Exec Command= "IF NOT EXIST $(RootPhysicalpath) mkdir $(RootPhysicalpath)" ContinueOnError="true" />
+  </Target>
+
+  <Target Name="Stage">
+    <Exec Command="IF EXIST $(Stagepath) RD /S /Q $(Stagepath)" ContinueOnError="true" />    
+    <Exec Command="IF NOT EXIST $(Stagepath) mkdir $(Stagepath)" ContinueOnError="true" />    
+    <Exec Command="robocopy ..\Build $(Stagepath) MOE.zip" ContinueOnError="true" />
+    <Exec Command="robocopy ..\Build\Installer $(Stagepath)\Installer /E" ContinueOnError="true" />
+  </Target>
+
+  <Target Name="Installation">
+    <Exec Command="$(Drivename):\Stage\Installer\unzip.exe $(Drivename):\Stage\MOE.zip -d $(RootPhysicalpath)\" ContinueOnError="true" IgnoreExitCode="true" />
+  </Target>
+
+  <Target Name="StartTime">
+    <MSBuild.ExtensionPack.Framework.DateAndTime TaskAction="Get" Format="dd MMM yy HH:mm:ss">
+      <Output TaskParameter="Result" PropertyName="DeploymentStartTime"/>
+    </MSBuild.ExtensionPack.Framework.DateAndTime>
+  </Target>
+
+  <Target Name="CreateUser">
+    <!-- <Exec Command="echo Creating local User saras 	>> &quot;.\Buildsummary.txt&quot;" />-->
+    <Exec Command="net user saras /delete" />
+    <Exec Command="net user sarasrepousr repou$3r /add" />
+    <Exec Command="net localgroup Administrators sarasrepousr /add"/>
+  </Target>
+
+  <Target Name="CreateApppool">
+    <!-- <Exec Command="echo	Target- CreateApppool Starting, Start Time: ($([System.DateTime]::Now.ToString(&quot;yyyy-MM-dd  HH:mm:ss&quot;)))	>> &quot;.\Buildsummary.txt&quot;" />-->
+    <MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="CheckExists" Name="$(Apppool)" MachineName="$(Targetserver)">
+      <Output TaskParameter="Exists" PropertyName="DoesExist" />
+    </MSBuild.ExtensionPack.Web.Iis7AppPool>
+
+    <MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Delete" Name="$(AppPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" MachineName="$(Targetserver)" Condition="'$(DoesExist)'=='True'"/>
+    <MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Create" Name="$(AppPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" ManagedRuntimeVersion="$(ASPNetVersion)" MachineName="$(Targetserver)"/>
+
+    <MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Delete" Name="$(AdministrationWebApiPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" MachineName="$(Targetserver)" Condition="'$(DoesExist)'=='True'"/>
+    <MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Create" Name="$(AdministrationWebApiPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" ManagedRuntimeVersion="$(ASPNetVersion)" MachineName="$(Targetserver)"/>
+
+	<MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Delete" Name="$(ExamManagementApiPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" MachineName="$(Targetserver)" Condition="'$(DoesExist)'=='True'"/>
+    <MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Create" Name="$(ExamManagementApiPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" ManagedRuntimeVersion="$(ASPNetVersion)" MachineName="$(Targetserver)"/>
+
+	<MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Delete" Name="$(DataContainerViewAPIPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" MachineName="$(Targetserver)" Condition="'$(DoesExist)'=='True'"/>
+    <MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Create" Name="$(DataContainerViewAPIPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" ManagedRuntimeVersion="$(ASPNetVersion)" MachineName="$(Targetserver)"/>
+
+	<MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Delete" Name="$(LCManagementApiPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" MachineName="$(Targetserver)" Condition="'$(DoesExist)'=='True'"/>
+    <MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Create" Name="$(LCManagementApiPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" ManagedRuntimeVersion="$(ASPNetVersion)" MachineName="$(Targetserver)"/>
+
+	<MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Delete" Name="$(FrameworkThreadPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" MachineName="$(Targetserver)" Condition="'$(DoesExist)'=='True'"/>
+    <MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Create" Name="$(FrameworkThreadPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" ManagedRuntimeVersion="$(ASPNetVersion)" MachineName="$(Targetserver)"/>
+
+	<MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Delete" Name="$(TestDeliveryAPIPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" MachineName="$(Targetserver)" Condition="'$(DoesExist)'=='True'"/>
+    <MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Create" Name="$(TestDeliveryAPIPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" ManagedRuntimeVersion="$(ASPNetVersion)" MachineName="$(Targetserver)"/>
+
+	<MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Delete" Name="$(TAServicesPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" MachineName="$(Targetserver)" Condition="'$(DoesExist)'=='True'"/>
+    <MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Create" Name="$(TAServicesPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" ManagedRuntimeVersion="$(ASPNetVersion)" MachineName="$(Targetserver)"/>
+
+	<MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Delete" Name="$(TestWorkflowWebApiPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" MachineName="$(Targetserver)" Condition="'$(DoesExist)'=='True'"/>
+    <MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Create" Name="$(TestWorkflowWebApiPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" ManagedRuntimeVersion="$(ASPNetVersion)" MachineName="$(Targetserver)"/>
+
+	<MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Delete" Name="$(TransferServiceAPIPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" MachineName="$(Targetserver)" Condition="'$(DoesExist)'=='True'"/>
+    <MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Create" Name="$(TransferServiceAPIPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" ManagedRuntimeVersion="$(ASPNetVersion)" MachineName="$(Targetserver)"/>
+
+	<MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Delete" Name="$(ClientInfoForExamCentreReadinessPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" MachineName="$(Targetserver)" Condition="'$(DoesExist)'=='True'"/>
+    <MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Create" Name="$(ClientInfoForExamCentreReadinessPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" ManagedRuntimeVersion="$(ASPNetVersion)" MachineName="$(Targetserver)"/>
+	
+	<MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Delete" Name="$(WebTestAPPPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" MachineName="$(Targetserver)" Condition="'$(DoesExist)'=='True'"/>
+    <MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Create" Name="$(WebTestAPPPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" ManagedRuntimeVersion="$(ASPNetVersion)" MachineName="$(Targetserver)"/>
+	
+	<MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Delete" Name="$(eOralAppAPIPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" MachineName="$(Targetserver)" Condition="'$(DoesExist)'=='True'"/>
+    <MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Create" Name="$(eOralAppAPIPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" ManagedRuntimeVersion="$(ASPNetVersion)" MachineName="$(Targetserver)"/>
+	
+	<MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Delete" Name="$(eExam2IntegrationAPIPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" MachineName="$(Targetserver)" Condition="'$(DoesExist)'=='True'"/>
+    <MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Create" Name="$(eExam2IntegrationAPIPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" ManagedRuntimeVersion="$(ASPNetVersion)" MachineName="$(Targetserver)"/>
+	
+	<MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Delete" Name="$(RootRepositoryPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" MachineName="$(Targetserver)" Condition="'$(DoesExist)'=='True'"/>
+    <MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Create" Name="$(RootRepositoryPool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" ManagedRuntimeVersion="$(ASPNetVersion)" MachineName="$(Targetserver)"/>
+	
+	<MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Delete" Name="$(MediaServicePool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" MachineName="$(Targetserver)" Condition="'$(DoesExist)'=='True'"/>
+    <MSBuild.ExtensionPack.Web.Iis7AppPool TaskAction="Create" Name="$(MediaServicePool)" QueueLength="$(QueueLength)"  IdleTimeOut="$(IdleTimeOut)"  PipelineMode="$(AppPipelinemode)" ManagedRuntimeVersion="$(ASPNetVersion)" MachineName="$(Targetserver)"/>
+
+
+  </Target>
+
+  <Target Name="CreateWebApp">
+    <!-- <Exec Command="echo	Target- CreateWebApp Starting, Start Time: ($([System.DateTime]::Now.ToString(&quot;yyyy-MM-dd  HH:mm:ss&quot;)))	>> &quot;.\Buildsummary.txt&quot;" />-->
+    <MSBuild.ExtensionPack.Web.Iis7Application TaskAction="CheckExists" Website="$(WebSiteName)" Applications="@(Application)"  MachineName="$(Targetserver)">
+      <Output TaskParameter="Exists" PropertyName="DoesExist"/>
+    </MSBuild.ExtensionPack.Web.Iis7Application>
+    <MSBuild.ExtensionPack.Web.Iis7Application TaskAction="Delete" Website="$(WebSiteName)" Applications="@(Application)"  MachineName="$(Targetserver)" Condition="'$(DoesExist)'=='True'"/>
+    <MSBuild.ExtensionPack.Web.Iis7Website TaskAction="AddApplication" Name="$(WebSiteName)" Applications="@(Application)" MachineName="$(Targetserver)" Force="true"/>
+
+    <MSBuild.ExtensionPack.Web.Iis7Application TaskAction="CheckExists" Website="$(WebSiteName)" Applications="@(Repository)"  MachineName="$(RepositoryServer)">
+      <Output TaskParameter="Exists" PropertyName="DoesExist"/>
+    </MSBuild.ExtensionPack.Web.Iis7Application>
+    <MSBuild.ExtensionPack.Web.Iis7Application TaskAction="Delete" Website="$(WebSiteName)" Applications="@(Repository)"  MachineName="$(RepositoryServer)" Condition="'$(DoesExist)'=='True'"/>
+    <MSBuild.ExtensionPack.Web.Iis7Website TaskAction="AddApplication" Name="$(WebSiteName)" Applications="@(Repository)" MachineName="$(RepositoryServer)" Force="true"/>
+
+  </Target>
+
+  <Target Name="IISCaching">
+    <!--<Exec Command="echo	Target- IISCaching Starting, Start Time: ($([System.DateTime]::Now.ToString(&quot;yyyy-MM-dd  HH:mm:ss&quot;)))	>> &quot;.\Buildsummary.txt&quot;" /> -->
+    <Exec Command="iiscp.bat $(AdminVD) $(AdAuthoringVD) $(AssetVD) $(WorkflowVD) $(ExamManagementVD) $(ExamMonitoringSystemVD) $(ReportInterfaceVD) $(TryoutVD) $(TestPlayerVD) $(SarasExamPrepVD) $(SarasPrepApiVD) $(TeacherManagementVD) $(AdvanceReportsVD) $(ServiceVD) $(Apppool)" ContinueOnError="true" />
+    <!-- <Exec Command="echo	Target- IISCaching Completed, End Time: ($([System.DateTime]::Now.ToString(&quot;yyyy-MM-dd  HH:mm:ss&quot;)))	>> &quot;.\Buildsummary.txt&quot;" />
+    <Exec Command="echo.>> &quot;.\Buildsummary.txt&quot;" />-->
+  </Target>
+
+  <Target Name="EndTime">
+    <MSBuild.ExtensionPack.Framework.DateAndTime TaskAction="GetElapsed" Start="$(DeploymentStartTime)" Format="Minutes">
+      <Output TaskParameter="Result" PropertyName="DTResult"/>
+    </MSBuild.ExtensionPack.Framework.DateAndTime>
+    <Message Text="Slept For: $(DTResult)"/>
+    <Exec Command="echo	Total Deployment Time: $(DTResult)	>> &quot;.\Buildsummary.txt&quot;" />
+  </Target>
+
+  <Target Name="AppConfig">
+    <!--<Exec Command="echo	Target- Applicationconfig Starting, Start Time: ($([System.DateTime]::Now.ToString(&quot;yyyy-MM-dd  HH:mm:ss&quot;)))	>> &quot;.\Buildsummary.txt&quot;" />-->
+    <!--To find web.config files in all folders-->
+    <Exec Command="dir /s /b $(Sharepath1) | find /I &quot;web.config&quot; > webconfigfiles.txt" />
+    <!--To remove unwanted lines from webconfig file-->
+    <Exec Command="type webconfigfiles.txt | findstr /v /c:&quot;Copy of Web.config&quot; > webconfig.txt" />
+    <!--Delete temporary file-->
+    <Exec Command="del webconfigfiles.txt" />
+
+    <!--Reading web.config file content one by one-->
+    <ReadLinesFromFile File="webconfig.txt">
+      <Output TaskParameter="Lines" ItemName="WebConfigPath"/>
+    </ReadLinesFromFile>
+
+    <Message Text="@(WebConfigPath->'%(Identity)', '%0a%0d')" />
+    <!--%0A-Linefeed, %0D-Carriage Return-->
+
+    <!--Remove read-only attribute-->
+    <Exec Command="attrib -R &quot;%(WebConfigPath.Identity)&quot;" />
+
+    
+    <!--Key value Replace in all web.config files Section-->
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='RedirectToWorkFlow']" Key="value" Value="$(RedirectToWorkFlow)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='ErrorPage']" Key="value" Value="$(ErrorPage)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='LogoutURL']" Key="value" Value="$(LogoutURL)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='SessionLogoutURL']" Key="value" Value="$(SessionLogoutURL)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='BubbleSheetGeneratorURL']" Key="value" Value="$(BubbleSheetGeneratorURL)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='ContentPath']" Key="value" Value="$(ContentPath)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='RepositoryPathUpload']" Key="value" Value="$(RepositoryPathUpload)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='MySettingURl']" Key="value" Value="$(MySettingURl)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='SharedRepositoryPath']" Key="value" Value="$(SharedRepositoryPath)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='SSOForTandEAdministration']" Key="value" Value="$(SSOForTandEAdministration)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='SSOForTandECollector']" Key="value" Value="$(SSOForTandECollector)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='DateFormateValue']" Key="value" Value="$(DateFormateValue)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='TestManagementApi']" Key="value" Value="$(TestManagementApi)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='ValidateSession']" Key="value" Value="$(ValidateSession)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='EncryptionKeySSO']" Key="value" Value="$(EncryptionKeySSO)" />
+	
+	
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='RepositorySharedpath']" Key="value" Value="$(RepositorySharedpath)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='RepositoryPath']" Key="value" Value="$(RepositoryPath)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='PackageFolder']" Key="value" Value="$(PackageFolder)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='TemporaryFolder']" Key="value" Value="$(TemporaryFolder)" />
+	
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='ConnectionString']" Key="value" Value="$(EnpConnectionString)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='connectionString']" Key="value" Value="$(EnpConnectionString)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/connectionStrings/add[@name='Default']" Key="connectionString" Value="$(DBDataContainer)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/connectionStrings/add[@name='DefaultConnection']" Key="connectionString" Value="$(DBFramewrok)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/connectionStrings/add[@name='Saras']" Key="connectionString" Value="$(DBFramewrok)" />
+		
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='DataEncryptionKey']" Key="value" Value="$(DataEncryptionKey)" />
+	
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='ApplicationLogout']" Key="value" Value="$(ApplicationLogout)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='ApplicationRootRepositorySharedpath']" Key="value" Value="$(ApplicationRootRepositorySharedpath)" />
+	
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='Testplayer']" Key="value" Value="$(Testplayer)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='ContentRepositoryRootPath']" Key="value" Value="$(ContentRepositoryRootPath)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='Export1p2']" Key="value" Value="$(Export1p2)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='Export2p0']" Key="value" Value="$(Export2p0)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='SingleSignOnURLForTest']" Key="value" Value="$(SingleSignOnURLForTest)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='USMLEReports']" Key="value" Value="$(USMLEReports)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='ReportInterface']" Key="value" Value="$(ReportInterface)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='EvaluationURL']" Key="value" Value="$(EvaluationURL)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='SecureBrowserSetupPath']" Key="value" Value="$(SecureBrowserSetupPath)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='AdminApplication']" Key="value" Value="$(AdminApplication)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='OPTAHighStakeTestPath']" Key="value" Value="$(OPTAHighStakeTestPath)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='ApplicationVirtualDir']" Key="value" Value="$(ApplicationVirtualDir)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='RepositorySharePath']" Key="value" Value="$(RepositorySharePath)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='PracticePortalURL']" Key="value" Value="$(PracticePortalURL)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='SignOutURL']" Key="value" Value="$(SignOutURL)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='LMSRepositoryPath']" Key="value" Value="$(LMSRepositoryPath)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='AssignmentsRoot']" Key="value" Value="$(AssignmentsRoot)" />
+	
+	
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='RelativeRepositoryPathQRCodePDF']" Key="value" Value="$(RelativeRepositoryPathQRCodePDF)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='RelativeRepositoryPathQRCodeImage']" Key="value" Value="$(RelativeRepositoryPathQRCodeImage)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='RepositoryPathPhoto']" Key="value" Value="$(RepositoryPathPhoto)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='CandidateImageVerificationPath']" Key="value" Value="$(CandidateImageVerificationPath)" />
+	
+	
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='SSOForSingleTestPreview']" Key="value" Value="$(SSOForSingleTestPreview)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='RepositoryServer']" Key="value" Value="$(RepositoryPath)" />
+	
+	
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='StudentURL']" Key="value" Value="$(StudentURL)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='ItemPath']" Key="value" Value="$(ItemPath)" />
+	
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='ApplicationHome']" Key="value" Value="$(ApplicationHome)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='DBName']" Key="value" Value="$(DBName)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='TryOutAssessment']" Key="value" Value="$(TryOutAssessment)" />
+    
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='RepositoryServer']" Key="value" Value="$(RepositoryPath)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='TryOut']" Key="value" Value="$(TryOut)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='AssessmentTryoutUrl']" Key="value" Value="$(AssessmentTryoutUrl)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='AssetLibrary']" Key="value" Value="$(AssetLibrary)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='AssetPreviewURL']" Key="value" Value="$(AssetPreviewURL)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='TakeTest']" Key="value" Value="$(TakeTest)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='TakeTestForMyspace']" Key="value" Value="$(TakeTestForMyspace)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='AppletPath']" Key="value" Value="$(AppletPath)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='StylesheetPreviewURL']" Key="value" Value="$(StylesheetPreviewURL)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='ParticipantAssessmentTryout']" Key="value" Value="$(ParticipantAssessmentTryout)" />
+    
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='AssignmentPath']" Key="value" Value="$(SharedRepositoryPath)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='AssessmentReportPath']" Key="value" Value="$(AssessmentReportPath)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='ComplexityReportPath']" Key="value" Value="$(ComplexityReportPath)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='HelpUrl']" Key="value" Value="$(HelpUrl)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='QuestionTryoutUrl']" Key="value" Value="$(QuestionTryoutUrl)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='QuestionTryoutUrl2']" Key="value" Value="$(QuestionTryoutUrl2)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='AssessementTryOut']" Key="value" Value="$(AssessementTryOut)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='ResourcePath']" Key="value" Value="$(RepositoryPath)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='DownloadSharePath']" Key="value" Value="$(DownloadSharePath)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='DownloadPath']" Key="value" Value="$(DownloadPath)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='StudentUrl']" Key="value" Value="$(StudentUrl)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='TryOutMultiInstrAssessment']" Key="value" Value="$(TryOutMultiInstrAssessment)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='RapidLearningTryoutURL']" Key="value" Value="$(RapidLearningTryoutURL)" />
+    
+    
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='SSOForTeacherManagement']" Key="value" Value="$(SSOForTeacherManagement)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='SSOForEssayEvaluation']" Key="value" Value="$(SSOForEssayEvaluation)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='RepositoryName']" Key="value" Value="$(RepositoryName)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='ParentApplicationVirtualDirs']" Key="value" Value="$(ParentApplicationVirtualDirs)" />
+    
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='EssayPDFSheetGeneratorUrl']" Key="value" Value="$(EssayPDFSheetGeneratorUrl)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='AssignEvaluatorSSOURL']" Key="value" Value="$(AssignEvaluatorSSOURL)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='SignleSignOnURLForMES']" Key="value" Value="$(SignleSignOnURLForMES)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='SSOForReportInterface']" Key="value" Value="$(SSOForReportInterface)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='RedirectToAdvanceAuthroing']" Key="value" Value="$(RedirectToAdvanceAuthroing)" />
+
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='BubbleSheetUrl']" Key="value" Value="$(BubbleSheetUrl)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='AdminPath']" Key="value" Value="$(AdminPath)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='TestPlayerSSO']" Key="value" Value="$(TestPlayerSSO)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='OMRPreviewSSO']" Key="value" Value="$(OMRPreviewSSO)" />
+    
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='SSOForItemAuthoring']" Key="value" Value="$(SSOForItemAuthoring)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='WorkFlow']" Key="value" Value="$(WorkFlow)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='ContentPath']" Key="value" Value="$(ContentPath)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='SSOForScoreModeration']" Key="value" Value="$(SSOForScoreModeration)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='TestPlayerPath']" Key="value" Value="$(TestPlayerPath)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='RedirectToItemAuthoring']" Key="value" Value="$(RedirectToItemAuthoring)" />
+    
+
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='ImgURLpath']" Key="value" Value="$(ImgURLpath)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='AMSPath']" Key="value" Value="$(AMSPath)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='RootRepository']" Key="value" Value="$(RootRepository)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='LMSINTEGRATION_LogOut']" Key="value" Value="$(LMSINTEGRATION_LogOut)" />
+
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='Home']" Key="value" Value="$(Home)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='Logout']" Key="value" Value="$(Logout)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='Testplayer']" Key="value" Value="$(Testplayer)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='TestPrepTestplayer']" Key="value" Value="$(TestPrepTestplayer)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='USMLETestplayer']" Key="value" Value="$(USMLETestplayer)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='USMLE']" Key="value" Value="$(USMLE)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='TestPrep']" Key="value" Value="$(TestPrep)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='TEACHERMANAGEMENTMODULE']" Key="value" Value="$(TEACHERMANAGEMENTMODULE)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='GiveAssessment']" Key="value" Value="$(GiveAssessment)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='EXAMMANAGEMENTMODULE']" Key="value" Value="$(EXAMMANAGEMENTMODULE)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='HelpDesk']" Key="value" Value="$(HelpDesk)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='SSOForTestPlayer']" Key="value" Value="$(SSOForTestPlayer)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='SSOForManageTest']" Key="value" Value="$(SSOForManageTest)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='ApplicationVirtualpath']" Key="value" Value="$(ApplicationVirtualpath)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='RequestPath']" Key="value" Value="$(RequestPath)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='RequestPathforTryout']" Key="value" Value="$(RequestPathforTryout)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='AdminRedirectUrl']" Key="value" Value="$(AdminRedirectUrl)" />
+	
+	
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='SSOForExamManagement']" Key="value" Value="$(SSOForExamManagement)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='ScheduleUrl']" Key="value" Value="$(ScheduleUrl)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='Upload']" Key="value" Value="$(Upload)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='CPURL']" Key="value" Value="$(CPURL)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='ReportPath']" Key="value" Value="$(ReportPath)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='TakeTestURL']" Key="value" Value="$(TakeTestURL)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='RedirectToManageTest']" Key="value" Value="$(RedirectToManageTest)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='SSOForDataContainerView']" Key="value" Value="$(SSOForDataContainerView)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='AdminUrl']" Key="value" Value="$(AdminUrl)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='ApplicationPath']" Key="value" Value="$(ApplicationPath)" />
+
+    
+    
+    
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='LandingURL']" Key="value" Value="$(LandingURL)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='OnTestSuccessUrl']" Key="value" Value="$(OnTestSuccessUrl)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='InstantReportUrl']" Key="value" Value="$(InstantReportUrl)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='LoginPage']" Key="value" Value="$(LoginPage)" />
+    
+    
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='AdvanceReport']" Key="value" Value="$(AdvanceReport)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='AuthCallbackUrl']" Key="value" Value="$(AuthCallbackUrl)" />
+    
+
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='TestPlayerSSO']" Key="value" Value="$(TestPlayerSSO)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='SSOForOMREmailDashBoard']" Key="value" Value="$(SSOForOMREmailDashBoard)" />
+
+    
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='RepositoryPathUpload']" Key="value" Value="$(RepositoryPathUpload)" />
+	
+    
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='TIMEPath']" Key="value" Value="$(TIMEPath)" />
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='Logout']" Key="value" Value="$(Logout)" /> 
+
+    <!-- key added on 2/3/2022-->
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='TimeZone']" Key="value" Value="$(TimeZone)" />	
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='CBP_S3_Zip_JobLocation']" Key="value" Value="$(CBP_S3_Zip_JobLocation)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='AppPath']" Key="value" Value="$(AppPath)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='ApplicationVirtualDir']" Key="value" Value="$(ApplicationVirtualDir)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='CommandTimeOut']" Key="value" Value="$(CommandTimeOut)" />
+	
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='cIsOfflineTestEnabled']" Key="value" Value="$(cIsOfflineTestEnabled)" />
+	<MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(WebConfigPath.Identity)" XPath="/configuration/appSettings/add[@key='FolderName']" Key="value" Value="$(FolderName)" />
+
+    <!--Identity Impersonate-->
+  <!--  <XmlUpdate XPath="configuration/system.web/identity/@userName" XmlFileName="%(WebConfigPath.Identity)" Value="$(IdentityUsername)"/>
+    <XmlUpdate XPath="configuration/system.web/identity/@password" XmlFileName="%(WebConfigPath.Identity)" Value="$(IdentityPassword)"/> -->
+
+    <!--Folder permission 
+    <MSBuild.ExtensionPack.FileSystem.Folder TaskAction="AddSecurity" Path="%(folderpermission.Identity)" Users="NETWORK SERVICE" AccessType="Allow" Permission="FullControl" />
+    <MSBuild.ExtensionPack.FileSystem.Folder TaskAction="AddSecurity" Path="%(folderpermission.Identity)" Users="IUSR" AccessType="Allow" Permission="FullControl" />
+    <MSBuild.ExtensionPack.FileSystem.Folder TaskAction="AddSecurity" Path="%(folderpermission.Identity)" Users="IIS_IUSRS" AccessType="Allow" Permission="FullControl" />
+    <MSBuild.ExtensionPack.FileSystem.Folder TaskAction="AddSecurity" Path="%(folderpermission.Identity)" Users="NETWORK" AccessType="Allow" Permission="FullControl" />
+    <MSBuild.ExtensionPack.FileSystem.Folder TaskAction="AddSecurity" Path="%(folderpermission.Identity)" Users="Users" AccessType="Allow" Permission="FullControl" />
+-->
+	
+    <!--<Exec Command="echo	Target- Applicationconfig Completed, End Time: ($([System.DateTime]::Now.ToString(&quot;yyyy-MM-dd  HH:mm:ss&quot;)))	>> &quot;.\Buildsummary.txt&quot;" />
+    <Exec Command="echo.>> &quot;.\Buildsummary.txt&quot;" />-->
+	
+	<Exec Command="attrib -R D:\BuildPackages\DL\Web\TestPrepAdmin\ExamManagement\web.config" />
+    <XmlUpdate
+	 Namespace="http://schemas.microsoft.com/.NetConfiguration/v2.0"
+	 XmlFileName="D:\BuildPackages\DL\Web\TestPrepAdmin\ExamManagement\web.config"
+	 Xpath="//configuration/system.web/sessionState/@timeout"
+	 Value="60"
+  />
+  
+  <Exec Command="attrib -R D:\BuildPackages\DL\Web\TestPrepAdmin\EMS\web.config" />
+    <XmlUpdate
+	 Namespace="http://schemas.microsoft.com/.NetConfiguration/v2.0"
+	 XmlFileName="D:\BuildPackages\DL\Web\TestPrepAdmin\EMS\web.config"
+	 Xpath="//configuration/system.web/sessionState/@timeout"
+	 Value="60"
+  />
+  
+  <Exec Command="attrib -R D:\BuildPackages\DL\Web\TestPrepAdmin\web.config" />
+    <XmlUpdate
+	 Namespace="http://schemas.microsoft.com/.NetConfiguration/v2.0"
+	 XmlFileName="D:\BuildPackages\DL\Web\TestPrepAdmin\web.config"
+	 Xpath="//configuration/system.web/sessionState/@timeout"
+	 Value="60"
+  />
+  
+  <Exec Command="attrib -R D:\BuildPackages\DL\Web\TestPrepAdmin\ReportInterface\web.config" />
+    <XmlUpdate
+	 Namespace="http://schemas.microsoft.com/.NetConfiguration/v2.0"
+	 XmlFileName="D:\BuildPackages\DL\Web\TestPrepAdmin\ReportInterface\web.config"
+	 Xpath="//configuration/system.web/sessionState/@timeout"
+	 Value="60"
+  />
+  
+  <Exec Command="attrib -R D:\BuildPackages\DL\Web\TestPlayer\web.config" />
+    <XmlUpdate
+	 Namespace="http://schemas.microsoft.com/.NetConfiguration/v2.0"
+	 XmlFileName="D:\BuildPackages\DL\Web\TestPlayer\web.config"
+	 Xpath="//configuration/system.web/sessionState/@timeout"
+	 Value="180"
+  />
+  
+  </Target>
+  
+  <Target Name="ConStringChange">
+	
+  <Exec Command="attrib -R D:\BuildPackages\DL\App\AdministrationWebApi\web.config" />
+  <XmlUpdate
+   Namespace="http://schemas.microsoft.com/.NetConfiguration/v2.0"
+   XmlFileName="D:\BuildPackages\DL\App\AdministrationWebApi\web.config"
+   Xpath="//configuration/appSettings/add[@key='ConnectionString']/@value"
+   Value="d5AIrTaRPwvZGpxhUsCE+HHROEqqHDx85mgzyfhq5LtFXFKzADgJ4vRzCxsyTShakTFTLCdQYiRtiENcWZiBJo329QAlBHQQb0oF1UxBpJ22P44fW4tgBj62I7Eh4XMcypcsJerDB6qTuXZEgHJGwCfYWn8ggekjOpJCEPaS9JaKhF0LSAJ36o349l4NVuQvWlLb3yDDXySJSDrhc2cqZdBUD/LUhzkh0V+pBKSTHXk="
+  />
+  
+  <Exec Command="attrib -R D:\BuildPackages\DL\App\TestDeliveryAPI\web.config" />
+  <XmlUpdate
+   Namespace="http://schemas.microsoft.com/.NetConfiguration/v2.0"
+   XmlFileName="D:\BuildPackages\DL\App\TestDeliveryAPI\web.config"
+   Xpath="//configuration/appSettings/add[@key='ConnectionString']/@value"
+   Value="d5AIrTaRPwvZGpxhUsCE+HHROEqqHDx85mgzyfhq5LtFXFKzADgJ4vRzCxsyTShakTFTLCdQYiRtiENcWZiBJo329QAlBHQQb0oF1UxBpJ22P44fW4tgBj62I7Eh4XMcypcsJerDB6qTuXZEgHJGwCfYWn8ggekjOpJCEPaS9JaKhF0LSAJ36o349l4NVuQvWlLb3yDDXySJSDrhc2cqZdBUD/LUhzkh0V+pBKSTHXk="
+  />
+  
+  
+  <Exec Command="attrib -R D:\BuildPackages\DL\App\TransferServiceAPI\web.config" />
+  <XmlUpdate
+   Namespace="http://schemas.microsoft.com/.NetConfiguration/v2.0"
+   XmlFileName="D:\BuildPackages\DL\App\TransferServiceAPI\web.config"
+   Xpath="//configuration/appSettings/add[@key='ConnectionString']/@value"
+   Value="d5AIrTaRPwvZGpxhUsCE+HHROEqqHDx85mgzyfhq5LtFXFKzADgJ4vRzCxsyTShakTFTLCdQYiRtiENcWZiBJo329QAlBHQQb0oF1UxBpJ22P44fW4tgBj62I7Eh4XMcypcsJerDB6qTuXZEgHJGwCfYWn8ggekjOpJCEPaS9JY41FZX51QLQ7QBbCQS1gwJHYvVa+dj+X1Q1CtsWueBNaeCe465/nxvN9/1GhfFVfY="
+   />
+   
+   <Exec Command="attrib -R D:\BuildPackages\DL\App\TransferServiceAPI\web.config" />
+   <XmlUpdate
+   Namespace="http://schemas.microsoft.com/.NetConfiguration/v2.0"
+   XmlFileName="D:\BuildPackages\DL\App\TransferServiceAPI\web.config"
+   Xpath="//configuration/appSettings/add[@key='COEConnectionString']/@value"
+   Value="d5AIrTaRPwvZGpxhUsCE+HHROEqqHDx85mgzyfhq5LtFXFKzADgJ4vRzCxsyTShakTFTLCdQYiRtiENcWZiBJo329QAlBHQQb0oF1UxBpJ22P44fW4tgBj62I7Eh4XMcypcsJerDB6qTuXZEgHJGwCfYWn8ggekjOpJCEPaS9JaKhF0LSAJ36o349l4NVuQvWlLb3yDDXySJSDrhc2cqZdBUD/LUhzkh0V+pBKSTHXk="
+   />
+   
+   <Exec Command="attrib -R D:\BuildPackages\DL\App\TransferServiceAPI\web.config" />
+   <XmlUpdate
+   Namespace="http://schemas.microsoft.com/.NetConfiguration/v2.0"
+   XmlFileName="D:\BuildPackages\DL\App\TransferServiceAPI\web.config"
+   Xpath="//configuration/connectionStrings/add[@name='Default']/@connectionString"
+   Value="Data Source=sarasdb-ta-moe-seab-sql-web-edition.c7uyjk7fd9rr.ap-southeast-1.rds.amazonaws.com;Initial Catalog=SarasDB_TA_MOE_SEAB_Delivery_DX;Integrated Security=SSPI"
+  />
+  
+  <Exec Command="attrib -R D:\BuildPackages\DL\App\WebTestAPP\web.config" />
+  <XmlUpdate
+   Namespace="http://schemas.microsoft.com/.NetConfiguration/v2.0"
+   XmlFileName="D:\BuildPackages\DL\App\WebTestAPP\web.config"
+   Xpath="//configuration/appSettings/add[@key='TestManagementApi']/@value"
+   Value="http://localhost/MoE/TestDeliveryAPI/"
+  />
+  
+  <Exec Command="attrib -R D:\BuildPackages\DL\App\TestDeliveryAPI\web.config" />
+  <XmlUpdate
+   Namespace="http://schemas.microsoft.com/.NetConfiguration/v2.0"
+   XmlFileName="D:\BuildPackages\DL\App\TestDeliveryAPI\web.config"
+   Xpath="//configuration/appSettings/add[@key='TestManagementApi']/@value"
+   Value="http://app-nlb.excelindia.com/MoE/TestDeliveryAPI/"
+  />
+  </Target>
+
+  <Target Name="StartServices">
+    <Exec Command="IISReset -start" />
+  </Target>
+  
+  <Target Name="StartNxlog">
+   
+	 <Exec Command='Sc \\192.168.3.49 start "nxlog"' ContinueOnError='false' /> 
+  </Target>
+  
+  <Target Name="protocol">
+    <Exec Command='C:\Windows\system32\inetsrv\appcmd set app /app.name:"Default Web Site/MOE/TAServices" /enabledProtocols:http,net.tcp'/>
+  </Target>
+  
+</Project>

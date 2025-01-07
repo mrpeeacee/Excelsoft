@@ -1,0 +1,1 @@
+Powershell.exe -executionpolicy remotesigned -Command "{Start-Process PowerShell -ArgumentList executionpolicy remotesigned -File "D:\Project\TestPOC\IIS_Reset.ps1" -Verb RunAs}"

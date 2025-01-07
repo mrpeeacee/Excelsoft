@@ -1,0 +1,182 @@
+<Project  xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Import Project=".\DeploymentConfig.xml"/>
+  <PropertyGroup>
+
+    <!--Common configuration section start-->
+    <DNS>https://moe-delivery.excelindia.com</DNS>
+	<AppDNS>https://app-nlb.excelindia.com</AppDNS>
+    <loginUrl>/$(AdminVD)/Common/Login/Login.aspx</loginUrl>
+	<LogoutURL>/$(AdminVD)/ExamManagement</LogoutURL>
+	<Logout>/$(AdminVD)/ExamManagement</Logout>
+	<RepositorySharedpath>D:\RootRepository</RepositorySharedpath>
+	<RepositoryPath>/MOE/RootRepository/</RepositoryPath>
+	
+	<ErrorPage>/$(TestPlayerVD)/Error.aspx</ErrorPage>
+	<ApplicationLogout>/MOE/TAAdmin/Exammanagement</ApplicationLogout>
+	
+	
+	<!--AdvancedAuthoring VD configuration section start-->
+	<SSOForSingleTestPreview>$(DNS)/$(TestPlayerVD)/TestTryout.aspx?</SSOForSingleTestPreview>
+	<RequestPath>/$(AdminVD)/Tryout/QuestionTryout1p2.aspx?</RequestPath>
+	<RequestPathforTryout>/$(AdminVD)/Tryout/QuestionTryout2p0.aspx?</RequestPathforTryout>
+	<RedirectToWorkFlow>/$(AssetWorkflowfVD)/ItemPresentation/WorkflowManageAssets.aspx</RedirectToWorkFlow>
+	<Export1p2>$(AppDNS)/MOE/TAServices/</Export1p2>
+	<Export2p0>$(AppDNS)/MOE/TAServices/</Export2p0>
+	<AuthoringApiURL>$(AppDNS)/MOE/AuthoringAPI/</AuthoringApiURL>
+	
+	<!--Testplayer VD configuration section start-->
+	<ApplicationVirtualDir>$(DNS)/$(TestPlayerVD)/</ApplicationVirtualDir>
+	<ParentApplicationVirtualDirs>TestPlayer,TAAdmin,TAServices</ParentApplicationVirtualDirs>
+	<TestManagementApi>$(AppDNS)/MOE/TestDeliveryAPI/</TestManagementApi>
+	<RepositorySharePath>D:\RootRepository</RepositorySharePath>
+	<LMSRepositoryPath>$(RepositoryPath)LMSContent/</LMSRepositoryPath>
+	<AssignmentsRoot>$(RepositorySharedpath)\Assignments</AssignmentsRoot>
+	<LandingURL>$(DNS)/$(TestPlayerVD)</LandingURL>
+	<InstantReportUrl>$(DNS)/$(AdminVD)/Reports.MVC/ComparisionReport</InstantReportUrl>
+	<LoginPage>$(DNS)/$(TestPlayerVD)/Start.aspx</LoginPage>
+	<AdvanceReport>/AdvanceReportsVD/SingleSignOn.aspx</AdvanceReport>
+	<SecureBrowserSetupPath>$(DNS)/$(TestPlayerVD)/SecureBrowser/</SecureBrowserSetupPath>
+	<AuthCallbackUrl>/$(TestPlayerVD)/SingleSignOn.aspx</AuthCallbackUrl>
+    <PracticePortalURL>/$(AdminVD)/Common/Login/Login.aspx</PracticePortalURL>
+	<AdminUrl>/$(AdminVD)/Common/Login/Login.aspx</AdminUrl>
+	<ReportInterface>/$(AdminVD)/ReportInterface/</ReportInterface>
+	<DefaultStyleSheet>BrightIndigo</DefaultStyleSheet>
+	<cIsOfflineTestEnabled>0</cIsOfflineTestEnabled>
+	<OfflineIntervalTime>60</OfflineIntervalTime>
+	<MSIMediaPath>https://moetp.excelindia.com/MOE/</MSIMediaPath>
+	<MSITPPath>https://moetp.excelindia.com/MOE/TestPlayer/</MSITPPath>
+	
+	<!--Admin VD (TestPrepAdmin) configuration section start-->
+	<TryOutAssessment>/$(TestPlayerVD)/InstructionsTryOut.aspx</TryOutAssessment>
+	<TryOut>/$(AdminVD)/AssessmentBuilder/AssessmentManagement/frmTestInfo.aspx/TryOut</TryOut>
+	<AssessmentTryoutUrl>/$(TestPlayerVD)/</AssessmentTryoutUrl>
+	<AssetLibrary>/$(AdminVD)/AssetLibrary/Login.aspx</AssetLibrary>
+	<AssetPreviewURL>$(DNS)/$(AdminVD)/AssetLibrary/ManageResource/PreviewAsset.aspx</AssetPreviewURL>
+	<TakeTest>/$(AdminVD)/AssessmentBuilder/Test/</TakeTest>
+    <TakeTestForMyspace>/$(TestPlayerVD)/Instructions.aspx</TakeTestForMyspace>
+	<AppletPath>/$(AdminVD)/AssessmentBuilder/Applet</AppletPath>
+    <StylesheetPreviewURL>/$(AdminVD)/AssessmentBuilder/StylesheetManagement/</StylesheetPreviewURL>
+    <ParticipantAssessmentTryout>/$(TestPlayerVD)/StudentTakeTest.aspx</ParticipantAssessmentTryout>
+	<AssessmentReportPath>/$(AdminVD)/AssessmentBuilder/StudentReports/frmStudentReports1.aspx</AssessmentReportPath>
+    <ComplexityReportPath>/$(AdminVD)/AssessmentBuilder/ReportsManagement/StudentReports/ClassificationPieChart.aspx</ComplexityReportPath>
+	<HelpUrl>/$(AdminVD)/</HelpUrl>
+	<ScheduleUrl>/$(AdminVD)/Admin/Schedule/AddSchedule.aspx?</ScheduleUrl>
+	<QuestionTryoutUrl>/$(AdminVD)/TryOut/QuestionTryout1p2.aspx</QuestionTryoutUrl>
+    <QuestionTryoutUrl2>/$(AdminVD)/TryOut/QuestionTryout2p0.aspx</QuestionTryoutUrl2>
+    <AssessementTryOut>/$(TestPlayerVD)/InstructionsTryOut.aspx</AssessementTryOut>
+	<DownloadSharePath>$(RepositorySharedpath)\Downloads\</DownloadSharePath>
+    <DownloadPath>$(RepositoryPath)Downloads/</DownloadPath>
+	<Upload>/$(AdminVD)/AssessmentBuilder/Test/frmUploadOfflineTest.aspx</Upload>
+	<ItemPath>/$(AdminVD)/ItemAuthoring/ManageQuestions/ManageQuestions.aspx</ItemPath>
+	<CPURL>/$(AdminVD)/CPR5/index.aspx?</CPURL>
+	<ReportPath>/$(AdminVD)/Common/Login/Login.aspx</ReportPath>
+	<StudentUrl>$(DNS)/$(TestPlayerVD)/</StudentUrl>
+    <TryOutMultiInstrAssessment>$(DNS)/$(TestPlayerVD)/MultiInstructionsTryOut.aspx</TryOutMultiInstrAssessment>
+    <RapidLearningTryoutURL>/$(TestPlayerVD)/RapidLearning/Presentation/RapidLearningTryout.aspx</RapidLearningTryoutURL>
+	<TakeTestURL>/$(TestPlayerVD)/StartTest.aspx?</TakeTestURL>
+	<SingleSignOnURLForTest>$(DNS)/$(TestPlayerVD)/SingleSignOn.aspx</SingleSignOnURLForTest>
+	<RedirectToManageTest>/$(ExamManagementVD)</RedirectToManageTest>
+	<SSOForDataContainerView>/$(AdminVD)/DataContainerView/Login.aspx?</SSOForDataContainerView>
+	<IsAdvanceAuthoring>false</IsAdvanceAuthoring>
+	<ValidateSession>0</ValidateSession>
+	<eLCTryOut>/MOE/eLCTryOut/</eLCTryOut>
+	
+	<!--DataContainerView configuration section start-->
+	<FunctionListURL>$(AppDNS)/MOE/DataContainerViewAPI/api/Home/FunctionsList</FunctionListURL>
+	<MasterListURL>$(AppDNS)/MOE/DataContainerViewAPI/api/Home/MasterList</MasterListURL>
+	<ExecutionURL>$(AppDNS)/MOE/DataContainerViewAPI/api/Home/Execute</ExecutionURL>
+	<AuthenticateURL>$(AppDNS)/MOE/DataContainerViewAPI/api/Home/Authenticate</AuthenticateURL>
+	
+	<!--ExamManagement configuration section start-->
+	<ContentPath>D:\RootRepository</ContentPath>
+	<RepositoryPathUpload>$(RepositorySharedpath)\ContentPackages\FileUDDResource\</RepositoryPathUpload>
+	<SharedRepositoryPath>D:\RootRepository</SharedRepositoryPath>
+	<SSOForEssayEvaluation>/MOE/EssayEvaluation?</SSOForEssayEvaluation>
+	<OTPExpiryInMinutes>2</OTPExpiryInMinutes>
+	<MaxLoginAttempts>3</MaxLoginAttempts>
+	<DomainPathForETLDashboard>moe-delivery.excelindia.com/MOE/ETLDashboardApplication/</DomainPathForETLDashboard>
+	
+	<!--Excelimport configuration section start-->
+	<PathToUploadFiles>$(RepositorySharedpath)\ExcelImport\UploadedFiles\</PathToUploadFiles>
+	<AdminHome>$(DNS)/$(AdminVD)/Common/MyInfo.aspx</AdminHome>
+	<ImagePathType1>$(DNS)/$(ExcelimportVD)/CandidatePhotos/</ImagePathType1>
+	<ImagePathType2>$(DNS)/$(RepositoryVD)</ImagePathType2>
+	
+	<!--Workflow configuration section start-->
+	<SSOForTestPlayer>/$(TestPlayerVD)/InstructionsTryOut.aspx?</SSOForTestPlayer>
+	<SSOForManageTest>/$(AdminVD)/SingleSignOn.aspx?</SSOForManageTest>
+	<ApplicationVirtualpath>$(DNS)/$(AdminVD)/TryOut/QuestionTryout1p2.aspx</ApplicationVirtualpath>
+	
+	<!-- key added on 14/3/2022-->
+	<SSOForeLCInvigilator>/MOE/eLCInvigilator/SSOLogin?</SSOForeLCInvigilator>
+	
+	<!--key added on 20/4/2022-->
+	<MediaApp>https://moe-delivery.excelindia.com/MOE/MediaApp/api/Media?key=</MediaApp>
+	
+	<!-- key added on 27/5/2022-->
+	<IsReqdRequestLevelSecurity>1</IsReqdRequestLevelSecurity>
+	
+	
+		
+    <!--Service end points list-->
+    <AccountManagementSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/AccountManager.svc</AccountManagementSvc>
+    <ApplicationSettingsSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/ApplicationSettingsManager.svc</ApplicationSettingsSvc>
+    <AuthenticationManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/AuthenticationManager.svc</AuthenticationManagerSvc>
+    <GroupManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/GroupManager.svc</GroupManagerSvc>
+    <OrganizationManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/OrganizationManager.svc</OrganizationManagerSvc>
+    <RespositoryManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/RespositoryManager.svc</RespositoryManagerSvc>
+    <RoleManagementSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/RoleManagement.svc</RoleManagementSvc>
+    <SchedulingManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/Scheduling.svc</SchedulingManagerSvc>
+    <ProductManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/ProductManager.svc</ProductManagerSvc>
+    <FileManagementSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/FileManagement.svc</FileManagementSvc>
+    <ItemAuthoringSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/ItemAuthoringManager.svc</ItemAuthoringSvc>
+	<ItemAuthoringManagerQ1p2Svc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/ItemAuthoringManagerQ1p2.svc</ItemAuthoringManagerQ1p2Svc>
+    <GradeSchemaManagementSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/GradeManager.svc</GradeSchemaManagementSvc>
+    <AssignMarkersManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/AssignMarkers.svc</AssignMarkersManagerSvc>
+    <AssessmentsManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/AssessmentsManager.svc</AssessmentsManagerSvc>
+    <ScoreEditorManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/ScoreEditorManager.svc</ScoreEditorManagerSvc>
+    <CollaborationManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/CollaborationService.svc</CollaborationManagerSvc>
+    <ContentPackagingManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/ContentPackagingManager.svc</ContentPackagingManagerSvc>
+    <ContentRenderManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/ContentRender.svc</ContentRenderManagerSvc>
+    <CourseManagementSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/CourseManagementManager.svc</CourseManagementSvc>
+    <DiscussionForumSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/DiscussionForumService.svc</DiscussionForumSvc>
+    <ManageLearningspaceSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/ManageLearningspace.svc</ManageLearningspaceSvc>
+    <ResponseProcessingSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/ResponseprocessingManager.svc</ResponseProcessingSvc>
+    <MessagingManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/MessagingService.svc</MessagingManagerSvc>
+    <OrganizerManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/OrganizerService.svc</OrganizerManagerSvc>
+    <ResourceManagementSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/ResourceManager.svc</ResourceManagementSvc>
+    <WorkflowManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/WorkFlowManager.svc</WorkflowManagerSvc>
+    <LMSReportManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/ReportingManager.svc</LMSReportManagerSvc>
+    <EnrollManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/EnrollManager.svc</EnrollManagerSvc>
+    <FeedbackManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/FeedbackManager.svc</FeedbackManagerSvc>
+    <GradebookServiceSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/GradebookService.svc</GradebookServiceSvc>
+    <IPAddressManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/IPAddressManager.svc</IPAddressManagerSvc>
+    <LearnerRankingManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/LearnerRankingService.svc</LearnerRankingManagerSvc>
+    <PersonalizationManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/PersonalizationManager.svc</PersonalizationManagerSvc>
+    <PhysicalResourceManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/PhysicalResourceManager.svc</PhysicalResourceManagerSvc>
+    <PollingSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/PollingManager.svc</PollingSvc>
+    <ProgressTrackingManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/ProgressTrackingManager.svc</ProgressTrackingManagerSvc>
+    <FederatedSearchManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/FederatedSearchManager.svc</FederatedSearchManagerSvc>
+    <UserTrackingManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/UserTracking.svc</UserTrackingManagerSvc>
+    <AnnoucementSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/AnnouncementService.svc</AnnoucementSvc>
+    <ComposeManagementSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/ComposeTestManager.svc</ComposeManagementSvc>
+    <ImportManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/ImportManager.svc</ImportManagerSvc>
+    <ReportingManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/ReportManager.svc</ReportingManagerSvc>
+    <ExportManagersvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/Export2p0/ExportManager.svc</ExportManagersvc>
+    <TestExport1p2Svc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/ExportManager.svc</TestExport1p2Svc>
+    <ItemResponseTheorySvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/Service.svc</ItemResponseTheorySvc>
+    <ContentAggregationManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/ContentAggregationManager.svc</ContentAggregationManagerSvc>
+    <ContentStructureManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/ContentStructureManager.svc</ContentStructureManagerSvc>
+    <AssessmentsManagerHESvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/AssessmentsManager.svc</AssessmentsManagerHESvc>
+    <TransferServiceSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/LicensingAndTransfer.svc</TransferServiceSvc>
+    <IRTSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/Service.svc</IRTSvc>
+    <URLManagerSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/Service1.svc</URLManagerSvc>
+    <EMailServiceSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/MailService.svc</EMailServiceSvc>
+    <IBookUserManagementSvc></IBookUserManagementSvc>
+    <BookManagementSvc></BookManagementSvc>
+    <AWSMailServiceSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/MailService.svc</AWSMailServiceSvc>
+    <SARASSvc>net.tcp://app-nlb.excelindia.com/MOE/TAServices/iSarasDataExchangePortal.svc</SARASSvc>
+
+	
+  </PropertyGroup>
+</Project>
