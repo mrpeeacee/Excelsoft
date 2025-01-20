@@ -1,0 +1,24 @@
+To create a PFX certificate we primarily need 
+1. Certicate.pem
+2. Private Key
+3. CA bundle/Chain/Root certificate
+
+once we have this browse "https://www.sslshopper.com/ssl-certificate-tools.html"
+
+in that SSL tools --> certificate decoder 
+here we can see the issuer and any errors in the certificate etc
+
+
+now to create PFX once everything is verified navigate to SSL converter in SSL tools
+ in the choose file field 
+
+1> Certificate.pem
+2> Private Key
+3> CA bundle/Chain
+
+keep the password simple and easy to remember
+
+after choosing the file kindly select convert to pfx in the options and submit 
+
+the pfx is ready to download.
+
