@@ -1,0 +1,19 @@
+
+gpedit.msc  --> Administrative Templates --> Network --> SSL configuration settings --> SSL cipher suite order --> enable
+
+keep the old cipher backup
+
+scan using the below URL
+https://www.ssllabs.com/index.html --> test your server --> DNS search
+
+
+
+IISCrypto.exe  --> Run as Administrator
+
+CipherSuites --> remove the weak cipher
+
+gpedit.msc  --> Administrative Templates --> Network --> SSL configuration settings --> SSL cipher suite order --> enable
+
+Reboot and Apply
+
+Re scan
