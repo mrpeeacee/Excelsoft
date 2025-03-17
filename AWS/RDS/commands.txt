@@ -1,0 +1,12 @@
+apt update
+apt install mysql-client -y   (mysql-client package name in ubuntu)
+
+connecting to DB:
+
+mysql -h end point -u username -p hit enter never give pwd in command line
+mysql -h nik-database.ca3yzzzueib3.ap-south-1.rds.amazonaws.com -u admin -pNvVRsBVCbPD11WAWrTFF
+
+show databases;
+\h
+help contents
+exit
