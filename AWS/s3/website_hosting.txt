@@ -1,0 +1,18 @@
+2 buckets one for hosting and another for logs
+
+bucket1 --> provisioning enabled --> permissions --> enable public access --> object ownership --> ACL's enabled
+
+
+in s3 bucket go to properties --> scroll to end --> static website hosting --> enable --> index document
+
+http://nik-webhost-barista.s3-website.ap-south-1.amazonaws.com
+
+
+
+Access Logging in s3
+
+properties --> server access logging  --> enable  --> destination --> browse s3 and select the second bucket to store the logs
+
+Amazon S3 (Simple Storage Service) is used to host static websites, which include only HTML, CSS, and JavaScript files without server-side scripting. Hosting static sites on S3 is generally more cost-effective, as you only incur charges for storage and data transfer. S3 can automatically manage high traffic, making it ideal for websites with significant visitor numbers. Additionally, it is easy to set up and maintain, as it does not require any server management.
+
+Amazon EC2 (Elastic Compute Cloud) offers scalable compute capacity in the cloud. EC2 instances can operate web servers such as Apache or Nginx to host both dynamic and static websites. You have full control over the server environment, including the operating system and web server settings. This is ideal for websites needing server-side processing, databases, or dynamic content. EC2 also allows for extensive customization, including software installation and application execution.

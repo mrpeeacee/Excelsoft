@@ -1,0 +1,32 @@
+bucket name unique
+
+general purpose
+
+region
+
+object ownership : ACL's disabled
+
+By default objects uploaded to s3 is private
+
+Bucket Versioning : Recover data enable
+
+Encryption : KMS is not free using SSE-S3
+
+
+Object Lock, store objects using WORM (write once read many) model , prevent objects from being deleted or overwritten for a fixed amount of time or indefinitely. Object Lock works only in versioned buckets
+
+While uploading the objects we can select the storage class
+
+Can decide the encryption key for object we're uploading (don't specify used)
+
+object URL :https://niks3-excel.s3.ap-south-1.amazonaws.com/IPRU_UAT_securityfix.zip
+s3 URL     :s3://niks3-excel/IPRU_UAT_securityfix.zip
+
+
+Found in management tab
+Lifecycle Rules: Define the transition of objects from one storage class to other based on its age
+
+Why transition? To save cost
+
+In a versionedbucket expires means place a delete marker
+In a non-versionedbucket expires means delete
