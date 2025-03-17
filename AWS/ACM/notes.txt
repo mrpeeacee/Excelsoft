@@ -1,0 +1,12 @@
+ACM
+
+create 
+once created take the cname name and cname value
+
+
+go to godaddy --> manage domains --> our domain --> DNS --> Add new record --> choose type cname --> add record
+
+
+remove full stop at the end from cname name including domain name and remove full stop from cname value
+
+validation takes sometime (5mins to 48hrs)
