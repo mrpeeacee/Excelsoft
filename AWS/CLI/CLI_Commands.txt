@@ -1,0 +1,38 @@
+ aws ec2 create-key-pair --key-name My_KeyPair --query 'KeyMaterial' --output text > My_KeyPair.pem
+
+ aws ec2 delete-key-pair --key-name My_KeyPair
+ 
+ aws ec2 create-security-group --group-name nikhil-sg --description "nikhil-security-group"
+ 
+ aws ec2 authorize-security-group-ingress --group-id sg-046cd7cf92a447da9 --protocol tcp --port 22 --cidr 150.129.60.200/32
+ 
+ aws ec2 authorize-security-group-ingress --group-id sg-046cd7cf92a447da9 --protocol tcp --port 22-8000 --cidr 0.0.0.0/0
+ 
+ aws ec2 describe-security-groups --group-names nikhil-sg
+ 
+ aws ec2 delete-security-group --group-name nikhil-sg
+ 
+ aws ec2 run-instances --image-id <ami-Id> --count 1 --instance-type <type> --keyname <keypair-Name> --security-groups <security grp Name>
+ 
+ aws ec2 create-tags --resources <Instance-Id>--tags Key=Name,Value=<value>
+ 
+ aws ec2 terminate-instances --instance-ids <Instance-Id>
+ 
+  aws ec2 create-launch-template --launch-template-name 
+<Name>":[{"AssociatePublicIpAddress":true,"DeviceIndex":0,"Ipv6AddressCount":1,"
+SubnetId":"pe":"<Instance type","TagSpecifications":[{"ResourceType":"instance","
+Tags":[{"Key":"Name","Value":"<value>"}]}]}
+
+aws ec2 delete-launch-template --launch-template-id < template id> --region <region>
+
+aws autoscaling create-auto-scaling-group --auto-scaling-group-name <Name> --launch-LaunchTemplateId=<template – id > --min-size 2 --max-size 5 --vpc-zoneidentifier "subnet1-id,subnet2-id,subnet3-id"
+
+aws autoscaling delete-auto-scaling-group --auto-scaling-group-name < Auto-Scaling group Name >
+
+aws s3 ls
+aws s3 ls s3://<bucket name>
+aws s3 mb s3:// <bucket name>
+aws s3 cp sample.txt s3:// <bucket name>
+aws s3 cp s3://<source bucket/file> s3://<destination-bucket>
+
+ 
