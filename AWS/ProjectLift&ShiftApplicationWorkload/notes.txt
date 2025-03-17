@@ -1,0 +1,97 @@
+3 sg , 
+
+
+
+
+
+After launching instances
+
+Connect to DB:
+
+#systemctl status MariaDB
+#mysql -u admin -padmin123 accounts   #####login to DB, accouts is DB name
+#show tables
+exit
+exit
+
+Connect to memecache:
+
+#sudo systemctl status memecached
+
+
+
+
+Connect to rabbitMQ:
+
+#sudo systemctl status rabbbitmq-server
+
+
+Build and Deploy Artifacts:
+
+create IAM user with s3 access
+create role, download csv
+modify App IAM role
+
+mvn -version
+aws
+mvn install
+aws configure, access and secret key , default region, default format-json
+vim ~/.aws/credentials
+vim ~/.aws/config
+C:\Users\nikhil.mg\.aws
+
+aws s3 cp target/vprofile-v2.war s3://nik-vprofile-artifacts/
+aws s3 ls s3://nik-vprofile-artifacts/
+
+SSH to app instance:-
+
+snap install aws-cli --classic
+aws s3 cp s3://nik-vprofile-artifacts/vprofile-v2.war /tmp/
+systemctl stop tomcat10
+ls /var/lib/tomcat10/webapps/    ###homedirectory of tomcat on ubuntu, root folder is the default application
+rm -rf /var/lib/tomcat10/webapps/ROOT
+cp /tmp/vprofile-v2.war /var/lib/tomcat10/webapps/ROOT.war
+systemctl stop tomcat10          ###once started the .war will be extracted
+ls /var/lib/tomcat10/webapps/    ###able to see root
+
+
+Load Balancer and DNS:-
+
+Create Targetgroup: select instances
+nik-vprofile-tg, port no 8080
+
+in listner if https slect certificate from ACM
+
+godaddy, myproducts, dns , add new record, cname
+
+
+ASG:- 
+AMI, Launch Template, ASG
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
