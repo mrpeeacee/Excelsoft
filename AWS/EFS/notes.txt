@@ -1,0 +1,23 @@
+create new SG
+
+NFS --> nik-sg
+
+create EFS
+
+name --> VPC --> customize  --> file system  --> Performance mode --> Throughput -->  Network (give EFS sg here removing the defaults)
+
+Access using IAM and access points
+
+Am using access points here
+
+amazon Linux AMI is used
+
+To mount use the below commands (use aws documentation for any help)
+
+sudo yum install -y amazon-efs-utils
+
+file-system-id efs-mount-point efs _netdev,tls,accesspoint=access-point-id 0 0
+fs-05e5e3c127cd974e5 /var/www/html/images efs _netdev,tls,accesspoint=fsap-0f828e437abeba5fa 0 0   (etc/fstab)
+
+mount -fav
+df -h  (if this doesn't show the mounting need to install amazon utils and mount again)
