@@ -1,0 +1,12 @@
+Amazon Route 53 is a scalable and highly available Domain Name System (DNS) web service provided by Amazon Web Services (AWS). It is used for domain registration, DNS routing, and health checking of resources. In short, Route 53 enables you to manage and route traffic for your domain names efficiently, making it easier to connect users to your applications and services on AWS or elsewhere on the internet.
+
+Create hosted Zone
+Private
+default VPC
+
+Create record
+A-type record
+recordname - name
+value - private ip
+
+add DB,rmq,mc
