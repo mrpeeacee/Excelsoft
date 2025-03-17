@@ -1,0 +1,51 @@
+while creating RDS create a parameter group to change it later 
+
+now go to subnet group in RDS , we have to create 
+
+use credentials: copy the details , if lost we can reset using modify
+
+Mr2z8aygbGHBFn4XDnFr:pwd
+uname:admin
+
+
+Amazon ElastiCache:-
+
+Amazon MQ:-
+
+Rabbit@7353@007
+
+create ec2, ubuntu:
+
+apt update && apt install MySQL-client git -y    ##to copy the schema from git and to connect DB (rds)
+
+mysql -h nik-rearch-rds.ca3yzzzueib3.ap-south-1.rds.amazonaws.com -u admin -pRabbit@7353@007 accounts
+
+git clone https://github.com/hkhcoder/vprofile-project.git
+git checkout awsrefractor
+
+mysql -h nik-rearch-rds.ca3yzzzueib3.ap-south-1.rds.amazonaws.com -u admin -p accounts < src/main/resources/db_backup.sql
+
+login:
+show tables;
+
+
+mvn install --> build success .war is generated
+
+go to beanstalk --> upload and deploy no deployment preference --> in the events we can see the logs
+
+once the deployment completed and environment is ready go to configuration in beanstalk scroll down to find instance traffic and scaling --> edit (scroll down) to find LB listners  --> add https, ssl certificate, ssl policy
+
+godaddy add new record cname with beanstalk endpoint
+
+
+
+
+
+
+
+
+
+
+
+
+
