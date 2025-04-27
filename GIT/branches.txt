@@ -1,0 +1,51 @@
+git branch -c sprin1  ###create branch 
+  git branch -a       ###lists all git branches both local and remote
+ git branch -d sprin1  ###delete a branch
+ git branch -c sprint1
+ git branch -a
+  git checkout sprint1
+ ls
+ git rm saturn7.py saturn8.py saturn9.py
+  git status
+ git rm saturn 6,py
+ git rm saturn 6.py
+git status
+  git mv saturn1.py staturn11.py  ###rename a file
+ clear
+  git rm saturn2.py saturn3.py saturn4.py saturn5.py
+  touch jupiter{1..4}.rh
+    ls
+  git add .
+  git commit -m "jupiter changes"
+   git push origin sprint1
+  git pull
+    git checkout sprint2
+    ls
+  touch sun earth venus mercury
+  ls
+  git add .
+  git commit -m "planets & stars"
+ git push origin sprint2
+   git branch -a
+   git switch sprint1
+ git switch master
+    git switch main
+ ls
+    git merge sprint1
+  clear
+  ls
+    git switch sprint1
+   ls
+   cd ..
+   cd titanwork/
+   git push --all origin
+   cd ..
+   rm -rf titanwork
+  ls
+   clear
+ git clone https://github.com/mrpeeacee/titanwork.git
+ ls
+  cd titanwork/
+   ls
+  git switch sprint1
+ 

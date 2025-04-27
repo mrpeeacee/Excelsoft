@@ -1,0 +1,65 @@
+Situation	Command	Meaning
+Undo unstaged changes	git checkout -- <file>	Discard file changes not yet staged
+Undo staged changes	git reset HEAD <file>	Unstage file (but keep changes locally)
+Undo a recent commit (keep changes)	git reset --soft HEAD~1	Move HEAD back by 1 commit, keep files staged
+Undo a recent commit (unstage + keep files)	git reset --mixed HEAD~1	Move HEAD back, unstage files
+Undo a recent commit (delete commit + delete changes)	git reset --hard HEAD~1	Move HEAD back, remove all changes
+Undo a commit that's already pushed	git revert <commit-id>	Create a new commit that undoes previous commit
+🧠 Small Explanation
+1. Undo local changes (not staged yet)
+bash
+Copy
+Edit
+git checkout -- <filename>
+Replaces the file with last committed version.
+
+2. Undo staged files (before commit)
+bash
+Copy
+Edit
+git reset HEAD <filename>
+Unstages the file (moves back to working area).
+
+3. Undo recent commits
+a) Soft reset (undo commit, keep changes staged)
+bash
+Copy
+Edit
+git reset --soft HEAD~1
+Useful if you realize your commit message was wrong.
+
+b) Mixed reset (undo commit, changes unstaged)
+bash
+Copy
+Edit
+git reset --mixed HEAD~1
+Default behavior if you just do git reset HEAD~1.
+
+c) Hard reset (delete commit and delete changes)
+bash
+Copy
+Edit
+git reset --hard HEAD~1
+⚡ Dangerous. Deletes everything!
+
+4. Undo a commit without changing history (safe way)
+bash
+Copy
+Edit
+git revert <commit-id>
+Makes a new commit that reverses changes.
+
+Safe when you've already pushed the commit to GitHub.
+
+🚨 Big Warning on reset --hard
+It deletes code permanently if not pushed anywhere. Use git reset --hard only when you are very sure!!
+
+🎯 Summary Shortcut for You:
+
+You Want	Command
+Undo local file change	git checkout -- <file>
+Unstage file	git reset HEAD <file>
+Undo last commit (keep code)	git reset --soft HEAD~1
+Undo last commit (unstage code)	git reset --mixed HEAD~1
+Delete commit & changes	git reset --hard HEAD~1
+Safely undo a pushed commit	git revert <commit-id>

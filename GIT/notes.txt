@@ -1,0 +1,52 @@
+git config --global user.name "mrpeeacee"
+git config --global user.email nikhilgbhat007@gmail.com
+
+mkdir gitrepos --> titan work --> 
+
+git init
+mkdir nebula Jupiter pluto
+touch saturn{1..10}.py
+touch nebula/tester32
+touch jupiter/test1
+touch pluto/taster89
+
+git status
+git add .   ## . means current wrking directory, all untracked files start tracking this is called staging still not committed
+git status
+git commit -m "new files committed"
+git status
+
+Already repo exists (private)
+git remote add origin https://github.com/mrpeeacee/titanwork.git
+git branch -M main    ##change from master to name
+git push -u origin main   ## pushing all the data to remote repository
+cat .git/config
+
+vim saturn1.py
+Saturn has many moons
+Mimas
+Hyberian
+Tione
+Rhea
+:wq
+
+git add saturn1.py
+git commit -m "saturn moons"
+git push origin main
+
+git log --oneline   ## only commit id
+git log             ## commit id , author , date and time commit message
+git show commit id  ##
+
+
+
+
+
+
+
+
+
+
+
+
+

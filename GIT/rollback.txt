@@ -1,0 +1,9 @@
+git checkout filename ##rollback before staging
+git diff --cached ##already staged
+git diff  ##
+git restore --staged filename
+git diff commitid..commitid   ## difference between current and previous commit
+git revert HEAD ##previous commit
+git reset --hard commit id ##go back to the particular commit, no history stored
+
+git reset or revert ## after commit if want to rollback
