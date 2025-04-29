@@ -1,6 +1,15 @@
 pom.xml
 Maven is a build tool for Java , dependency manager, project standardizer
 
+validate ➝ compile ➝ test ➝ package ➝ verify ➝ install ➝ deploy
+
+mvn validate    Checks pom.xml is correct, verifies project structure, Validates any required information is available before building
+mvn compile	    Compiles the source code
+mvn package	    Packages the compiled code into .jar or .war
+mvn install	    Installs the package into local Maven repository
+mvn clean	      Cleans old compiled files
+mvn test	      Runs the tests
+
 Launch  an ubuntu 22 instance
 
 sudo -i
