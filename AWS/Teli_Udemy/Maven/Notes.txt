@@ -1,0 +1,51 @@
+pom.xml
+Maven is a build tool for Java , dependency manager, project standardizer
+
+Launch  an ubuntu 22 instance
+
+sudo -i
+sudo apt update
+sudo apt search jdk
+sudo apt install openjdk-11-jdk -y
+java -version
+sudo apt install maven -y
+
+mvn -version
+
+to download different version of maven google maven archive download the tar ball and extract
+
+right click copy link address, go to instance
+if wget not installed install first, wget is a command-line tool used to download files from the internet.
+
+sudo apt install wget
+wget https://archive.apache.org/dist/maven/maven-3/3.9.3/binaries/apache-maven-3.9.3-bin.tar.gz
+
+tar xzvf apache-maven-3.9.3-bin.tar.gz 
+sudo mv apache-maven-3.9.3 /opt/
+/opt/apache-maven-3.9.3/bin/mvn -version
+
+git clone https://github.com/hkhcoder/vprofile-project.git
+ls
+cd vprofile-project/
+ls
+
+make sure the directory has pom.xml because maven needs it
+
+mvn validate
+mvn test
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
