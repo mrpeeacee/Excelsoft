@@ -15,7 +15,26 @@ sudo apt-get update
 sudo apt-get install jenkins -y
 
 systemctl status jenkins
-ls /var/lib/Jenkins/     ## home directory for Jenkins
-cat /var/lib/Jenkins/secrets/initialAdminPassword
-4f54b0548742428998834612e7e29eaa
+ls /var/lib/jenkins/     ## home directory for Jenkins
+cat /var/lib/jenkins/secrets/initialAdminPassword
+8079f14532634587bf470f50f2a2cd9b
+
+
+Plugins are Jenkins powerhouse
+Jenkins is extendable using plugins
+use a dummy domain 
+
+Add Maven - 3.9.9
+Add jdk - apt install openjdk-17-jdk -y
+
+
+
+
+
+
+
+
+
+
+
 
