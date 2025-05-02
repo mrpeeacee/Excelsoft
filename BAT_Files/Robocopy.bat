@@ -1,1 +1,1 @@
-robocopy "D:\Project\NYCS_Do_Not_Delete_BuildMasterCopy" "D:\Project\Backup\NYCSbkp" /E /S /XF "*.log" /XD "*.zip"
+robocopy "D:\Projects\NYCS" "D:\Projects\NYCS1\Now" /E /XF *.log *.zip /XD Log
