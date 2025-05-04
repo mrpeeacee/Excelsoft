@@ -1,1 +1,53 @@
+Ansible – Configuration Management (Day X in your roadmap)
+1. Core Concepts
+Idempotency: Tasks run by Ansible produce the same result no matter how many times they're run.
 
+Agentless: Ansible uses SSH to communicate with nodes—no agent installation needed.
+
+Playbooks: YAML files where you define tasks.
+
+Inventory: List of servers Ansible will manage.
+
+Modules: Pre-written code for tasks like installing packages, copying files, restarting services, etc.
+
+2. Setup
+Install Ansible on a control node (typically your local machine or a VM).
+
+Create an inventory file: hosts
+
+ini
+
+[webservers]
+192.168.1.10
+192.168.1.11
+Test connection:
+
+bash
+
+ansible all -i hosts -m ping
+
+3. Sample Playbook: Install Apache
+yaml
+
+---
+- name: Install Apache Web Server
+  hosts: webservers
+  become: yes
+
+  tasks:
+    - name: Install Apache
+      apt:
+        name: apache2
+        state: present
+Run with:
+
+bash
+
+ansible-playbook -i hosts apache.yml
+
+4. What It Helps With
+Keeps systems consistent across environments.
+
+Handles repetitive tasks (like creating users, setting permissions, etc.).
+
+Automates patching, configuration updates, and service restarts.
