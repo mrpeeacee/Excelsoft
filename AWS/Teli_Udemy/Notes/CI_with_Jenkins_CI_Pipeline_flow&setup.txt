@@ -36,6 +36,43 @@ java -version
 
 Go to browser:
 nexus-Ip:8081
+signin
+Your admin user password is located in
+/opt/nexus/sonatype-work/nexus3/admin.password on the server.
+
+admin/Admin123!@#
+
+enable anonymous access
+
+###############################################################
+
+sonar: 
+sonarip : takes sometime to load intitially
+
+admin\Admin123!@#
+
+
+##########plugins for CI################
+Nexusartifact uploader
+SonarQube scanner
+Git
+Pipeline Maven Integration
+Pipeline utility steps
+Build Timestamp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
