@@ -3,14 +3,17 @@ Maven is a build tool for Java , dependency manager, project standardizer
 
 validate ➝ compile ➝ test ➝ package ➝ verify ➝ install ➝ deploy
 
+
 mvn validate    Checks pom.xml is correct, verifies project structure, Validates any required information is available before building
-mvn compile	    Compiles the source code
-mvn package	    Packages the compiled code into .jar or .war
-mvn install	    Installs the package into local Maven repository
-mvn clean	      Cleans old compiled files
-mvn test	      Runs the tests
+mvn compile	Compiles the source code
+mvn package	Packages the compiled code into .jar or .war
+mvn install	Installs the package into local Maven repository
+mvn clean	Cleans old compiled files
+mvn test	Runs the tests
 
 Launch  an ubuntu 22 instance
+
+sg - ssh 22
 
 sudo -i
 sudo apt update
@@ -42,6 +45,61 @@ make sure the directory has pom.xml because maven needs it
 
 mvn validate
 mvn test
+
+ls target ###reports are stored here
+
+mvn clean
+mvn clean install
+mvn install
+
+rm -rf /home/ubuntu/.m2/repository/*
+
+
+
+########failed so tried########
+sudo apt install openjdk-17-jdk -y 
+
+#########again failed, so tried this shell script########
+
+#!/bin/bash
+ 
+# Step 0: Install Maven via apt (to install default version)
+echo "Installing Java & Maven via apt..."
+sudo apt update -y
+sudo apt install openjdk-17-jdk -y
+sudo apt install maven -y
+ 
+# Define the URL and file paths
+MAVEN_URL="https://dlcdn.apache.org/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz"
+MAVEN_TAR="apache-maven-3.9.9-bin.tar.gz"
+MAVEN_DIR="apache-maven-3.9.9"
+MAVEN_INSTALL_DIR="/usr/share/maven"
+ 
+# Step 1: Download the Maven binary tar.gz file
+echo "Downloading Maven..."
+wget $MAVEN_URL -O $MAVEN_TAR
+ 
+# Step 2: Extract the tar.gz file
+echo "Extracting Maven tar.gz file..."
+tar -xvzf $MAVEN_TAR
+ 
+# Step 3: Remove the existing Maven folder from /usr/share/
+echo "Removing existing Maven directory from /usr/share/maven..."
+sudo rm -rf $MAVEN_INSTALL_DIR
+ 
+# Step 4: Copy the extracted Maven folder to /usr/share/
+echo "Copying the new Maven directory to /usr/share/maven..."
+sudo mv $MAVEN_DIR $MAVEN_INSTALL_DIR
+ 
+# Step 5: Clean up the tar.gz file
+echo "Cleaning up the tar.gz file..."
+rm -f $MAVEN_TAR
+ 
+# Step 6: Verify Maven installation
+echo "Verifying Maven installation..."
+mvn -version
+ 
+echo "Maven has been successfully installed!"
 
 
 
