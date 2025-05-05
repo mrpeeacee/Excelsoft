@@ -1,0 +1,73 @@
+First_Job
+Freestyle
+
+
+BuidSteps- execute shell
+step1
+
+whoami
+pwd
+w  ####providesCurrent time and uptime,Number of users currently logged in,System load averages,Who is logged in (USER),Terminal session (TTY),Remote host (FROM),Login time (LOGIN@),Idle time (IDLE),CPU usage (JCPU, PCPU),The command they are running (WHAT)
+id
+
+step2
+
+sudo apt-get update  ##failed as Jenkins user doesn't have the privelege
+cat /proc/cpuinfo > cpuinfo.txt
+
+
+Second-BuildJob
+
+Vprofile_Build
+Freestyle
+
+JDK
+JDK to be used for this project --> select JDK17
+
+Source Code Management:-
+
+    Git-
+    Repository URL
+    https://github.com/hkhcoder/vprofile-project.git
+    
+    Branches to build
+    */atom
+
+    Build Steps
+    Invoke top-level Maven targets
+    Maven version - Maven3.9
+    Goals - install
+
+    Post-build Actions
+    Archive the artifacts
+    Files to archive - **/*.war   ##** means recursively in workspace look for .war to archive
+
+
+sudo apt-get update && sudo apt install maven -y
+mvn -version
+
+
+Vprofile Code Test
+Copy from Vprofile_Build
+
+JDK
+
+JDK to be used for this project --> select JDK11
+
+Source Code Management:-
+
+    Git-
+    Repository URL
+    https://github.com/hkhcoder/vprofile-project.git
+    
+    Branches to build
+    */jdk11
+
+
+
+
+
+
+
+
+
