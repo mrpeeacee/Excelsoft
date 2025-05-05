@@ -1,0 +1,13 @@
+##############Disk space issue###################
+
+ssh to instance
+
+df -h  ####disk space
+fdisk -l  
+
+go to instance storage -> rename the volume to identify -> modify volume -> increase as required -> reboot
+
+ssh to instance
+
+fdisk -l 
+df -h

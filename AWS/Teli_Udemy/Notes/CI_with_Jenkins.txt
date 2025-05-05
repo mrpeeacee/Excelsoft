@@ -25,7 +25,12 @@ Jenkins is extendable using plugins
 use a dummy domain 
 
 Add Maven - 3.9.9
-Add jdk - apt install openjdk-17-jdk -y
+Add jdk - 
+
+exec:-
+apt install openjdk-17-jdk -y
+ls /usr/lib/jvm/java-17-openjdk-amd64  ##java home to mention in Jenkins tools 
+
 
 
 

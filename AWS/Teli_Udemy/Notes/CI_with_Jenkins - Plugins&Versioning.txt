@@ -1,0 +1,53 @@
+plugins - s3 install
+
+create a job Build_Artifact from Vprofile_Build
+remove Archive artifacts in post build action
+
+add a build step 
+execute shell
+mkdir -p versions
+cp target/vprofile-v2.war versions/vpro$BUILD_ID.war
+
+the variables are case sensitive
+
+Jenins.io -> search -> environment variables , dynamic variable choosing as to keep the versions as per the build  
+
+If I want to pass a version ,
+select this project is parameterized -> String parameter -> VERSION
+
+mkdir -p versions
+#cp target/vprofile-v2.war versions/vpro$BUILD_ID.war
+cp target/vprofile-v2.war versions/vpro$VERSION.war 
+
+
+
+###############Artifacts with Timestamp###########
+
+plugin -> build timestamp
+
+After installation
+go to global system settings -> Enable timestamp -> make changes accordingly (dd.MM.yy_HH.mm.ss)
+
+Remove parametrized project
+
+mkdir -p versions
+#cp target/vprofile-v2.war versions/vpro$BUILD_ID.war
+#cp target/vprofile-v2.war versions/vpro$VERSION.war 
+cp target/vprofile-v2.war versions/vpro$BUILD_TIMESTAMP.war
+
+Jenkins workspace is not a storage, need to move it to s3 or any repo something
+
+Post build actions : Push the artifacts to s3
+
+
+
+
+
+
+
+
+
+
+
+
+
