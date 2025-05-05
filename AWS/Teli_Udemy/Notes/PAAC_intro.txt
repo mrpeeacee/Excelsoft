@@ -8,3 +8,8 @@ Pipeline : main block
 Node/Agent : both settings , can choose which node and agent
 Stage : actual execution, has steps
 
+
+Pipeline code -> PipelineCodeDemo.txt
+
+new item -> Vprofile-pipeline -> pipeline -> scroll down Pipeline script -> paste the contents -> build now
+
