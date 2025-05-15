@@ -1,0 +1,16 @@
+Publish Docker Images with artifact in it through PAAC
+
+AWS:-
+IAM user 
+ECR repo ####docker registry from AWS
+
+Jenkins Plugin:-
+Docker 
+Docker Pipeline
+ECR
+AWS SDK
+
+Store AWS creds in Jenkins
+
+Install docker engine in Jenkins server
+Install AWS cli for continuous Delivery

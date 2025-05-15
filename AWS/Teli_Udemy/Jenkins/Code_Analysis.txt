@@ -1,15 +1,6 @@
-PAAC (pipeline as a code): automatically using Jenkinsfile
-defines stages in CI/CD pipeline
-text file with domain specific language , similar to groovy
-syntax: scripted and declarative (currently used it is the way forward)
+Checkstyle and SonarQube
 
-##########pipeline concepts############
-Pipeline : main block
-Node/Agent : both settings , can choose which node and agent
-Stage : actual execution, has steps
+in Jenkins -> tools -> SonarQube Scanner installations -> SonarQube Scanner 6.2.1.4610 -> name (sonar6.2)
 
-
-Pipeline code -> PipelineCodeDemo.txt
-
-new item -> Vprofile-pipeline -> pipeline -> scroll down Pipeline script -> paste the contents -> build now
+in Jenkins -> system -> SonarQube servers -> checkmark env variables -> sonarserver -> url (http://private ip) -> server authentication token {go to sonar-> my account-> security-> generate token-> name Jenkins-> usertoken-> generate (onetime save it} -> from the dropdown select sonartoken {add - jenkins - kind(secret text) - secret - id(sonartoken)}
 

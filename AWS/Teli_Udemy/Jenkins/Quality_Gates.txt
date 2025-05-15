@@ -1,0 +1,10 @@
+sonar -> QG -> create -> vprofile-QG -> save
+
+unlock editing -> Add condition -> on overall code
+Bugs - value 10
+
+Project -> vprofile -> project settings -> Qualitygate -> Select vprofile-QG
+
+################creating webhook for sonar to contact Jenkins############
+
+Project -> vprofile -> project settings -> webhooks -> create -> jenkin-ci-webhhok -> url (http://privip:8080/sonarqube-webhook)

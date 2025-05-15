@@ -1,0 +1,34 @@
+Nexus is a software repo, store and retrieve softwares.
+It runs on Java
+Store artifacts
+Package manager for dependencies
+Supports varieties of repo
+
+Maven, apt, yum, nuget , npm, Docker
+
+Automation script fetch the artifact to deploy from nexus.
+
+sign in -> settigs -> repositories -> maven hosted -> vprofile-repo -> create repository
+
+Jenkins -> Credentials -> system -> Global(unrestricted) -> add -> username -> pwd 
+
+New job
+Vprofile-CI-Pipeline
+
+
+##########Clear workspace###########
+
+/var/lib/Jenkins/workspace/  -> rm -rf *
+systemctl restart Jenkins
+
+
+
+
+
+
+
+
+
+
+
+
