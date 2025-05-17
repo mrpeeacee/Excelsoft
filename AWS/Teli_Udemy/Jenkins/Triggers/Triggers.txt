@@ -1,0 +1,133 @@
+Git webhook
+Poll SCM
+Scheduled Jobs
+Remote Triggers
+Build after other projects are built
+
+
+################################################################
+########## Git webhook #########################
+Steps:-
+
+Create git repo jenkinstriggers
+SSH auth
+Create jenkinsfile and commit
+Create a Jenkins job to access Jenkinsfile from repo
+Test triggers
+
+
+ssh-keygen.exe
+ls ~/.ssh/
+cat ~/.ssh/pubkey
+
+Go to git hub account  -> settings -> ssh and gpg key -> new SSH -> my laptop -> pub key -> add ssh
+
+take ssh link from git repo 
+
+git clone sshlink 
+cd jenkinstriggers
+place a Jenkinsfile
+git add .
+git commit -m "first commit"
+git push origin main
+
+Manage Jenkins -> security -> configure global security -> git host key verification configuration -> accept first connect -> save 
+
+steps to take when host verification failed.
+
+Create a job -> Build -> pipeline pipeline script from scm -> git -> repo url -> ssh url -> Add creds -> ssh username with private key -> gitsshkey -> username git hub account -> private key enter directly
+
+
+private key in Jenkins , public key in GitHub
+
+
+copy Jenkins url 
+go to repository setting in git hub -> webhook -> add webhook -> paste url(public ip or DNS only)/github-webhook/ -> content type -> application json -> trigger only for push -> add webhook 
+
+Jenkins job -> build triggers -> GitHub hook triggers for git scm polling
+
+Go to repo 
+touch testfile.txt
+git add .
+git commit -m "testtrigger1"
+git push origin main
+
+
+#####################################################################
+########## Poll SCM ############
+
+Jenkins checks for commits, schedule in a cron job format
+* * * * *  ##### min(0-59), hour(0-23), day(1-31), month(1-12), day(0-7) of week {0 or 7= SUNDAY}
+
+0 13 * * 4 ### at 1PM on Thursday
+0 10 * * 1,4 ### 10AM all day, all month Monday and Thursday
+
+
+
+##########################################################################
+############# Scheduled Jobs ########################
+
+Configure -> build periodically -> 30 20 * * 1-5 ##### 8:30PM from monday to friday
+
+
+
+######################################################################
+############## Remote Triggers #############################
+
+
+Trigger Build remotely -> Authentication token -> mybuildtoken
+Use the following URL to trigger build remotely: JENKINS_URL/job/Build_Triggers/build?token=TOKEN_NAME or /buildWithParameters?token=TOKEN_NAME
+
+
+
+In Jenkins _> dropdown at right -> security -> API token -> Remote-triggers -> generate -> copy 
+
+
+Job URL
+http://13.126.132.2:8080/job/remote
+
+Token
+(#####admin:119a55ceae6e411c7996cc4cf09a9107c9#####)
+
+CRUMB
+
+wget -q --auth-no-challenge --user username --password password --output-document - 
+'http://13.126.132.2:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)'
+
+Wget didn't work 
+
+curl -u admin:11b60ea1fe18138d174f0785cbbd136512 -s 'http://13.126.132.2:8080/crumbIssuer/api/json'
+
+"crumb":"e03226b6ee4ac260ca4cbc4f3c281a0d8954523dd9267795461e7feac88f7485","crumbRequestField":"Jenkins-Crumb"
+
+wget for gitbash to run in windows -> https://eternallybored.org/misc/wget/ -> extraction path -> C:\Users\nikhil.mg\AppData\Local\Programs\Git\mingw64\bin
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
