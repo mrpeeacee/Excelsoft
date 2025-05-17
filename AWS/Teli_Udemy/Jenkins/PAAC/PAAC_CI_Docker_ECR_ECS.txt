@@ -7,10 +7,11 @@ pipeline {
 
 
     environment {
-        registryCredential = 'ecr:ap-south-1:awscreds'
-        appRegistry = "921268854572.dkr.ecr.ap-south-1.amazonaws.com/nikvprofileappimg"
-        vprofileRegistry = "https://921268854572.dkr.ecr.ap-south-1.amazonaws.com"
-        imageName = "nik"  + "$BUILD_NUMBER"
+        registryCredential = 'ecr:us-east-1:awscreds'
+        appRegistry = "921268854572.dkr.ecr.us-east-1.amazonaws.com/nik-vprofileappimg"
+        vprofileRegistry = "https://921268854572.dkr.ecr.us-east-1.amazonaws.com"
+		cluster = "nik-vprofile"
+        service = "nik-vprofileapptask-service-iyduvlup"
     }
   stages {
    
@@ -77,21 +78,37 @@ pipeline {
           steps {
        
             script {
-                dockerImage = docker.build( appRegistry + ":$imageName", "./Docker-files/app/multistage/")
+                dockerImage = docker.build( appRegistry + ":$BUILD_NUMBER", "./Docker-files/app/multistage/")
                 }
           }
     
         }
 
         stage('Upload App Image') {
-          steps{
-            script {
-              docker.withRegistry( vprofileRegistry, registryCredential ) {
-                dockerImage.push("$imageName")
-              }
+  steps {
+    script {
+      docker.withRegistry(vprofileRegistry, registryCredential) {
+        // Push image with build number
+        dockerImage.push("$BUILD_NUMBER")
+        
+        // Tag and push image with 'latest'
+        sh "docker tag ${appRegistry}:${BUILD_NUMBER} ${appRegistry}:latest"
+        sh "docker push ${appRegistry}:latest"
+      }
+    }
+  }
+}
+        stage('Remove Container Images'){
+            steps{
+                sh 'docker rmi -f $(docker images -a -q)'
             }
+        }
+         stage('Deploy to ecs') {
+          steps {
+            withAWS(credentials: 'awscreds', region: 'us-east-1') {
+            sh 'aws ecs update-service --cluster ${cluster} --service ${service} --force-new-deployment'
+               }
           }
         }
-
   }
 }

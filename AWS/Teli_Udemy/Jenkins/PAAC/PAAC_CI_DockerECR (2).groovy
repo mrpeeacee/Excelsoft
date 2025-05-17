@@ -10,7 +10,7 @@ pipeline {
         registryCredential = 'ecr:ap-south-1:awscreds'
         appRegistry = "921268854572.dkr.ecr.ap-south-1.amazonaws.com/nikvprofileappimg"
         vprofileRegistry = "https://921268854572.dkr.ecr.ap-south-1.amazonaws.com"
-        imageName = "nik"  + "$BUILD_NUMBER"
+        imageName = "ESnik" + "$BUILD_NUMBER"
     }
   stages {
    
@@ -77,7 +77,7 @@ pipeline {
           steps {
        
             script {
-                dockerImage = docker.build( appRegistry + ":$imageName", "./Docker-files/app/multistage/")
+                dockerImage = docker.build( appRegistry + "$imageName", "./Docker-files/app/multistage/")
                 }
           }
     
@@ -92,6 +92,10 @@ pipeline {
             }
           }
         }
-
+stage('Remove container Images'){
+    steps{
+        sh 'docker rmi -f $(docker images -a -q)'
+    }
+}
   }
 }
