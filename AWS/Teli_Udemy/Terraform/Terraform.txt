@@ -1,0 +1,64 @@
+Maintain all type of cloud infrastructure as a code
+Maintains the state of infrastructure as well
+Lot of plugins available to extend the functionality.
+
+resource and argument reference are different 
+resource "aws_instance", instance_type  = "t3.micro"
+
+choco install terraform
+terraform -help
+terraform --version
+
+IAM user -> create -> nik-terraadmin -> administrator access -> create access key -> CLI
+
+gitbash -> aws configure
+
+find ubuntu ami for aws 
+add extension for terraform in VisualCode
+create .tf file 
+
+terraform init
+terraform fmt
+terraform validate
+
+terraform plan
+terraform apply
+#####################################################################
+
+separate file for resources cleaner structure
+
+registry.terraform.io providers -> aws -> documentation 
+exercise2
+
+terraform init
+terraform fmt
+terraform validate
+
+terraform plan
+terraform apply
+terraform destroy
+
+aws ec2 describe-vpcs --filters Name=isDefault,Values=true --region us-east-1
+aws ec2 create-default-vpc --region us-east-1
+
+aws ec2 describe-subnets \
+  --filters "Name=default-for-az,Values=true" \
+  --region us-east-1
+
+aws ec2 describe-subnets \
+  --filters "Name=vpc-id,Values=<your-default-vpc-id>" \
+  --region us-east-1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
