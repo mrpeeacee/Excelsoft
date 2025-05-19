@@ -1,0 +1,43 @@
+Go to AWS beanstalk -> create application -> create environemt
+
+my-first-webapp-beanstalk
+my-first-webapp-beanstalk-env
+
+manage platform -> node js
+sample application , single instance
+use an existing service role, key pair not required
+
+role shud have 
+trusted policy for -> "Service": "codepipeline.amazonaws.com"
+
+permissions : - codestarfullaccess, beanstalkmangedupdatescustomerrolepolicy, beanstalkmulticontainerdocker, beanstalkwebtier, beanstalkworkertier
+###############################################################################
+
+CodePipeline :- 
+
+BuidCustomPipeline -> MyFirstPipeline -> Queued -> New service role -> source provider -> GitHub(GitHub app) -> connection name -> MyGithub -> yes -> Install a new app -> repo -> branch
+
+Codepipeline :- events vs webhooks vs polling
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

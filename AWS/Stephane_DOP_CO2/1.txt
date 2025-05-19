@@ -1,1 +1,44 @@
+AWS codecommit - store our code
+AWS codepipeline - automating pipeline from code to elastic beanstalk
+AWS codebuild - building and testing our code
+AWS codedeploy - deploying to EC2 instances
+AWS codestar - manage software development activities in one place
+codeartifact - store, publish and share software packages
+AWS codeguru - automated code reviews using Machine Learning
 
+
+CI:-
+githb, codecommit, bitbucket.. etc
+Build server -> testing -> codebuild, Jenkins CI
+Find bugs early, then fix
+Deliver faster
+Deploy often
+
+CD:-
+Ensures software can be released reliably whenever needed
+Dev -> push code -> code repo -> Build server -> deploy -> deployment server -> application server (1..2..)
+
+Ensure deployments happen often and quick
+From one release 3 month to 5 release a day
+
+Tech stack for CICD
+Code -> build -> test -> deploy -> provision -> AWS codepipeline (orchestrate)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+buildspec.yml

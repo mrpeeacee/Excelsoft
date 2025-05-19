@@ -1,0 +1,106 @@
+Version Control
+Git
+Local and central
+Colloborate
+Code is backed up
+Fully viewable and auditable
+
+####################################################################################
+
+Why AWS CodeCommit
+
+Git expensive, third party
+Private Git repo available, no size limit on repo, fully managed and highly available
+Code only in AWS -> increased security and compliance
+Security (encrypted, access control)
+Integrated with Jenkins, AWS codebuild and other CI tools
+
+######################################################################################
+
+Codecommit- security
+Interaction using git
+Authentication -> ssh keys ->  users can configure ssh keys in their IAM console , 
+https -> AWS cli credential helper or git credentials for IAM user
+Authorization -> IAM policies  to manage user/roles permissions to repo
+Encryption -> repos are automatically encrypted at rest using AWS KMS, also in transit only https or ssh both secure
+Cross-account access -> dont share SSH keys or AWS creds, use an IAM role in AWS account and use AWS STS(AssumeRole API)
+
+##################################################################################################
+
+git repo -> create -> my-nodejs-app
+
+add index.html from folder code_v2023-12-01\aws-cicd\nodejs-v2-blue
+
+
+Codecommit -: monitoring with event bridge
+realtime
+pullrequest, prstatus change, reference created
+codecommit -> event bridge -> sns, lambda , codepipeline
+
+migrate git repo to code commit:-
+
+codecommit repo -> create -> clone git repo -> push 
+
+
+Codecommit branch security :- 
+by default a user with push permissions can contribute to any branch
+use IAM policies to restrict users to push or merge code to a specific branch 
+note : resource policy is not supported yet
+
+
+Codecommit - pull request approval rules:-
+
+pool of users to approve and number of users who must approve pr, before the merge
+approval rule templates , define different rules for dev and prod
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
