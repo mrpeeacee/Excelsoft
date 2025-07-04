@@ -1,0 +1,5 @@
+How do you secure EC2?
+
+How do you handle patching?
+
+When would you prefer Lambda over EC2?
