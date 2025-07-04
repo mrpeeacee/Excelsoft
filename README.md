@@ -4,3 +4,4 @@ Azure intro and hands on,
 CICD setup,
 Docker details of workshop in ES,
 POC on real time application scripts like PS batch etc
+Interview guide and prep kick off , QnA , Notes.
